@@ -30,7 +30,7 @@ then
   rm /etc
   mkdir /etc
   cp /recovery.fstab /etc/recovery.fstab
-  mount /dev/block/mmcblk0p15 /sdcard
+  mount /dev/block/mmcblk0p14 /sdcard
   /sbin/recovery&
 fi
 #continue booting
