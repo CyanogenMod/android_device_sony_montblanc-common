@@ -36,6 +36,10 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
    lights.montblanc
 
+# Bluetooth
+PRODUCT_PACKAGES += \
+   STEBluetooth
+
 # We have enough storage space to hold precise GC data
 PRODUCT_TAGS += dalvik.gc.type-precise
 

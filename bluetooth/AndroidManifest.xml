@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+	package="com.stericsson.bluetooth">
+	<!-- Allows access to the Bluetooth Share Manager -->
+	<permission android:name="android.permission.ACCESS_BLUETOOTH_SHARE"
+		android:label="@string/permlab_bluetoothShareManager"
+		android:description="@string/permdesc_bluetoothShareManager"
+		android:protectionLevel="signature" />
+	<uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+	<uses-permission android:name="android.permission.ACCESS_BLUETOOTH_SHARE" />
+	<uses-permission android:name="android.permission.INTERNET" />
+	<uses-permission android:name="android.permission.BLUETOOTH" />
+	<uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+	<uses-permission android:name="android.permission.WAKE_LOCK" />
+	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+	<uses-permission android:name="android.permission.READ_CONTACTS" />
+	<uses-permission android:name="android.permission.READ_PHONE_STATE" />
+	<uses-permission android:name="android.permission.WRITE_SETTINGS" />
+	<application android:icon="@drawable/bt_share"
+		android:label="@string/app_name">
+		<uses-library android:name="javax.obex" />
+
+		<provider android:name=".ftp.BluetoothFtpProvider"
+			android:authorities="com.stericsson.bluetooth.ftp">
+			<path-permission android:path="/btftp"
+				android:permission="android.permission.ACCESS_BLUETOOTH_SHARE" />
+		</provider>
+
+		<service android:name=".ftp.BluetoothFtpService"
+			android:permission="android.permission.ACCESS_BLUETOOTH_SHARE" />
+
+		<activity android:name=".ftp.BluetoothFtpActivity"
+			android:excludeFromRecents="true"
+			android:theme="@*android:style/Theme.Dialog.Alert">
+			<intent-filter>
+				<category android:name="android.intent.category.DEFAULT" />
+			</intent-filter>
+		</activity>
+
+
+		<receiver android:name=".ftp.BluetoothFtpReceiver" android:exported="true">
+			<intent-filter>
+				<action android:name="android.bluetooth.adapter.action.STATE_CHANGED" />
+				<action android:name="android.intent.action.BOOT_COMPLETED" />
+			</intent-filter>
+		</receiver>
+
+	</application>
+</manifest>
