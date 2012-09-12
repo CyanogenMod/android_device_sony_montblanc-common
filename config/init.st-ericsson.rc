@@ -145,10 +145,10 @@ on post-fs
     chmod 0660 /sys/power/wake_lock
     chmod 0660 /sys/power/wake_unlock
 
-    mkdir /data/idd 0755 idd idd
-    mount ext4 /dev/block/mmcblk0p8 /data/idd nosuid nodev noatime barrier=0
-    chown idd idd /data/idd
-    chmod 0755 /data/idd
+#    mkdir /data/idd 0755 idd idd
+#    mount ext4 /dev/block/mmcblk0p8 /data/idd nosuid nodev noatime barrier=0
+#    chown idd idd /data/idd
+#    chmod 0755 /data/idd
     mkdir /data/tombstones 0755 system system
     mkdir /data/crashsms 0711 system system
     mkdir /data/crashsms/crashes 0755 system system
@@ -162,10 +162,10 @@ on post-fs
     # Camera
     mkdir /data/camera 0771 root camera
 
-on property:vold.decrypt=trigger_post_fs_data
-    mkdir /data/idd 0755 idd idd
-    mount ext4 /dev/block/mmcblk0p8 /data/idd nosuid nodev noatime barrier=0
-    chown idd idd /data/idd
+#on property:vold.decrypt=trigger_post_fs_data
+#    mkdir /data/idd 0755 idd idd
+#    mount ext4 /dev/block/mmcblk0p8 /data/idd nosuid nodev noatime barrier=0
+#    chown idd idd /data/idd
 
 on post-fs-data
     # create basic filesystem structure
@@ -174,8 +174,12 @@ on post-fs-data
 
     # give system access to ril_config
     copy -u /system/etc/ril_config /data/misc/ril_config
+
     chmod 0660 /data/misc/ril_config
     chown root radio /data/misc/ril_config
+
+    chmod 0660 /data/misc/telephony_log_levels
+    chown root radio /data/misc/telephony_log_levels
 
     # Create directory for STE OMX debug logs
     mkdir /data/ste-debug 0777 root root
@@ -402,6 +406,8 @@ on boot
     chmod 0664 /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
     chown root system /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
 
+    insmod /system/lib/modules/cw1200_core.ko
+    insmod /system/lib/modules/cw1200_wlan.ko
 
 ## Daemon processes to be run by init.
 ##
@@ -493,14 +499,7 @@ service thermald /system/bin/thermald
     disabled  # To be removed!
 
 # STE
-service wpa_supplicant /system/bin/wpa_supplicant -dd -Dnl80211
-    class main
-    group wifi
-    disabled
-    oneshot
-
-# STE
-service softap /system/bin/wpa_supplicant -dd -Dnl80211 -i wlan0 -c/data/misc/wifi/wpa_supplicant.conf
+service wpa_supplicant /system/bin/logwrapper /system/bin/wpa_supplicant -dd -Dnl80211 -i wlan0
     class main
     group wifi
     disabled
@@ -518,7 +517,7 @@ service iprenew_wlan0 /system/bin/dhcpcd -n
     disabled
     oneshot
 
-service dhcpcd_bnep0 /system/bin/logwrapper /system/bin/logwrapper /system/bin/dhcpcd -B -t 30
+service dhcpcd_bnep0 /system/bin/dhcpcd -B -t 30
     disabled
     oneshot
 
@@ -612,17 +611,11 @@ service battery_params /system/xbin/battery_params
     class main
     oneshot
 
-service usbid_init /system/bin/usbid_init.sh
-    class main
-    oneshot
 
 #STE: RTC Calibration daemon
 service rtc_calibration /system/bin/rtc_calibration
     user root
 
-service kexec /system/xbin/kexec.dyn -p
-    class main
-    oneshot
 
 service hw_config /system/bin/sh /system/etc/hw_config.sh
     class main
@@ -662,44 +655,12 @@ service updatemiscta /system/bin/updatemiscta
     user root
     oneshot
 
-service media /system/bin/logwrapper /system/bin/mediaserver
-    class main
-    user root
-    group system audio camera inet net_bt net_bt_admin net_bw_acct drmrpc input
-    ioprio rt 4
 
 #SEMC: modemcatcher
 service modemcatcher /system/bin/modemcatcher -f
     class main
     user root
     socket modemcatcher stream 0660 root root
-
-# Install CW1200 WLAN core driver
-service wlan_core /system/bin/sh /system/etc/wifi/install_wlan_core.sh
-    user root
-    oneshot
-
-# Regulatory domain handling
-service initial_regdom /system/bin/iw reg set US
-    disabled
-    oneshot
-
-# To prevent connection to channel 12, 13 in flight mode/no coverage/no sim case at startup.
-on property:wlan.driver.status=ok
-   start initial_regdom
-
-# To prevent connection to channel 12, 13 in flight mode
-on property:init.svc.wpa_supplicant=stopped
-   start initial_regdom
-
-# SEMC System monitor
-service system_monitor /system/bin/system_monitor
-    user root
-
-
-service illumination /system/bin/illumination_service
-    class main
-    user root
 
 service semcwall /system/bin/semcwall
     class main
@@ -711,6 +672,9 @@ service hdmiproxyd /system/bin/hdmiproxyd
     group graphics
     socket hdmid stream 0660 system system
     socket hdmic stream 0660 system system
+service usbid_init /system/bin/usbid_init.sh
+    class main
+    oneshot
 
 #service iddd /system/bin/iddd
 #    class main
@@ -722,3 +686,41 @@ service hdmiproxyd /system/bin/hdmiproxyd
 #    user system
 #    group system
 #    oneshot
+
+# Install CW1200 WLAN core driver
+#service wlan_core /system/bin/sh /system/etc/wifi/install_wlan_core.sh
+#    user root
+#    oneshot
+
+# Regulatory domain handling
+#service initial_regdom /system/bin/iw reg set US
+#    disabled
+#    oneshot
+
+# To prevent connection to channel 12, 13 in flight mode/no coverage/no sim case at startup.
+#on property:wlan.driver.status=ok
+#   start initial_regdom
+
+# To prevent connection to channel 12, 13 in flight mode
+#on property:init.svc.wpa_supplicant=stopped
+#   start initial_regdom
+
+# SEMC System monitor
+#service system_monitor /system/bin/system_monitor
+#    user root
+
+
+#service illumination /system/bin/illumination_service
+#    class main
+#    user root
+
+#service kexec /system/xbin/kexec.dyn -p
+#    class main
+#    oneshot
+
+
+#service media /system/bin/logwrapper /system/bin/mediaserver
+#    class main
+#    user root
+#    group system audio camera inet net_bt net_bt_admin net_bw_acct drmrpc input
+#    ioprio rt 4

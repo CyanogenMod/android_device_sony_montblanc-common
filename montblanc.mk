@@ -23,9 +23,10 @@ PRODUCT_COPY_FILES += \
     frameworks/base/data/etc/handheld_core_hardware.xml:system/etc/permissions/handheld_core_hardware.xml \
     packages/wallpapers/LivePicker/android.software.live_wallpaper.xml:system/etc/permissions/android.software.live_wallpaper.xml
 
-# EGL config
+# Configs
 PRODUCT_COPY_FILES += \
-    device/sony/montblanc-common/config/egl.cfg:system/lib/egl/egl.cfg
+    device/sony/montblanc-common/config/egl.cfg:system/lib/egl/egl.cfg \
+    device/sony/montblanc-common/config/wpa_supplicant.conf:system/etc/wifi/wpa_supplicant.conf
 
 # Filesystem management tools
 PRODUCT_PACKAGES += \
@@ -39,6 +40,17 @@ PRODUCT_PACKAGES += \
 # Bluetooth
 PRODUCT_PACKAGES += \
    STEBluetooth
+
+# Misc
+PRODUCT_PACKAGES += \
+   com.android.future.usb.accessory
+
+# NFC
+PRODUCT_PACKAGES += \
+   libnfc \
+   libnfc_jni \
+   Nfc \
+   Tag
 
 # We have enough storage space to hold precise GC data
 PRODUCT_TAGS += dalvik.gc.type-precise
@@ -57,6 +69,8 @@ PRODUCT_COPY_FILES += \
 
 # HW Configs
 PRODUCT_COPY_FILES += \
+    device/sony/montblanc-common/config/omxloaders:system/omxloaders \
+    device/sony/montblanc-common/config/rilconfig:system/etc/rilconfig \
     device/sony/montblanc-common/config/ste_modem.sh:system/etc/ste_modem.sh
 
 # Recovery resources
@@ -85,4 +99,5 @@ PRODUCT_COPY_FILES += \
 
 
 PRODUCT_PROPERTY_OVERRIDES += \
-    persist.sys.usb.config=adb
+    persist.sys.usb.config=mass_storage,adb \
+    wifi.interface=wlan0
