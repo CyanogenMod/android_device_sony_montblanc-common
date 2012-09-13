@@ -81,6 +81,7 @@ on init
     # chown for sim detect
     chown root radio /sys/class/sim_card/sim_status
 
+    #permissions for als
 
 on fs
     # If you change anything here, make sure to update
@@ -253,7 +254,6 @@ on post-fs-data
     write /sys/devices/platform/musb-ux500.0/musb-hdrc/gadget/lun0/nofua 1
     write /sys/devices/platform/musb-ux500.0/musb-hdrc/gadget/lun1/nofua 1
 
-
 on early-boot
 # STE: Launch core services in case charging mode is entered
     start watchdog-kicker
@@ -324,7 +324,9 @@ on boot
 
 # Permissions for Libals.
     chown system system /sys/bus/i2c/devices/2-0040/als_on
-    chmod 664 /sys/bus/i2c/devices/2-0040/als_on
+    chmod 666 /sys/bus/i2c/devices/2-0040/als_on
+    chmod 666 /sys/bus/i2c/devices/2-0036/als_enable
+    chmod 666 /sys/bus/i2c/devices/2-0037/als
 
 # Permissions for accelerometer and magnetometer.
     chown system system /sys/bus/i2c/devices/2-0018/pollrate_ms
@@ -363,6 +365,14 @@ on boot
     chown system system /sys/bus/i2c/devices/2-0053/flash_duration
     chown system system /sys/bus/i2c/devices/2-0053/flash_synchronization
     chown system system /sys/bus/i2c/devices/2-0053/status
+    chmod 666 /sys/bus/i2c/devices/2-0053/flash_enable
+    chmod 666 /sys/bus/i2c/devices/2-0053/torch_enable
+    chmod 666 /sys/bus/i2c/devices/2-0053/torch_current
+    chmod 666 /sys/bus/i2c/devices/2-0053/flash_current
+    chmod 666 /sys/bus/i2c/devices/2-0053/flash_duration
+    chmod 666 /sys/bus/i2c/devices/2-0053/flash_synchronization
+    chmod 666 /sys/bus/i2c/devices/2-0053/status
+
 # Permissions for LM3560 flash LED
     chown system system /sys/bus/i2c/devices/2-0053/privacy_enable
     chown system system /sys/bus/i2c/devices/2-0053/privacy_current
