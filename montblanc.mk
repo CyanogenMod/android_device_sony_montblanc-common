@@ -70,7 +70,7 @@ PRODUCT_COPY_FILES += \
 # HW Configs
 PRODUCT_COPY_FILES += \
     device/sony/montblanc-common/config/omxloaders:system/omxloaders \
-    device/sony/montblanc-common/config/rilconfig:system/etc/rilconfig \
+    device/sony/montblanc-common/config/ril_config:system/etc/ril_config \
     device/sony/montblanc-common/config/ste_modem.sh:system/etc/ste_modem.sh
 
 # Recovery resources

@@ -1,5 +1,3 @@
-/dev/rfkill               0660   wifi       wifi
-
 # NMF CM devices
 /dev/cm_channel           0660   media      system
 /dev/cm_control           0660   media      system
@@ -49,10 +47,14 @@
 # Trusted Eexecution Engine
 /dev/tee                  0660   root       system
 
+
 /sys/devices/platform/musb-ux500.0/musb-hdrc/usb* uevent 0660 root usb
+/dev/input/event10                                 0666   system     system
 /sys/bus/i2c/devices/2-0036/als                    0666  system system
-/sys/bus/i2c/devices/2-0036/als-result             0666  system system
-/sys/class/rfkill/rfkill1/state                     0666 bluetooth bluetooth
-/sys/devices/av8100_hdmi* disponoff           0660 root system
-/sys/devices/av8100_hdmi* hdmisdtvswitch      0660 root system
-/dev/hdmi                                     0660 root system
+/sys/bus/i2c/devices/2-0036/als_result             0666  system system
+/sys/bus/i2c/devices/2-0053/status                 0666  system system
+/dev/rfkill                                        0660   wifi       wifi
+/sys/class/rfkill/rfkill1/state                    0666 bluetooth bluetooth
+/sys/devices/av8100_hdmi* disponoff                0660 root system
+/sys/devices/av8100_hdmi* hdmisdtvswitch           0660 root system
+/dev/hdmi                                          0660 root system
