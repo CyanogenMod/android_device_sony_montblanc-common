@@ -10,12 +10,13 @@ if [ -s /dev/keycheck -o -e /cache/recovery/boot ]
 then
   rm /cache/recovery/boot
 
-  echo 0 > /sys/class/android_usb/android0/enable
-  echo 0fce > /sys/class/android_usb/android0/idVendor
-  echo 6146 > /sys/class/android_usb/android0/idProduct
-  echo mass_storage,adb > /sys/class/android_usb/android0/functions
-  echo 1 > /sys/class/android_usb/android0/enable
-  stop adbd
+  /sbin/usbid_init.sh
+#  echo 0 > /sys/class/android_usb/android0/enable
+#  echo 0fce > /sys/class/android_usb/android0/idVendor
+#  echo 6146 > /sys/class/android_usb/android0/idProduct
+#  echo mass_storage,adb > /sys/class/android_usb/android0/functions
+#  echo 1 > /sys/class/android_usb/android0/enable
+#  stop adbd
 
   sleep 2
   mount -o remount,rw rootfs /
