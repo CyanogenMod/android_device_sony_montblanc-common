@@ -227,9 +227,9 @@ on post-fs-data
 
     # Setup paths used for socket communication with the wpa supplicant.
     mkdir /data/system 0775 system system
-    mkdir /data/system/wpa_supplicant 0770 wifi wifi
+#    mkdir /data/system/wpa_supplicant 0770 wifi wifi
     chown system system /data/system
-    chown wifi wifi /data/system/wpa_supplicant
+#    chown wifi wifi /data/system/wpa_supplicant
 
     # Setup paths used for socket communication with the dhcp daemon(dhcpd)
     mkdir /data/misc/dhcp 0770 dhcp dhcp
@@ -428,7 +428,7 @@ on boot
     chown root system /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
 
     insmod /system/lib/modules/cw1200_core.ko
-    insmod /system/lib/modules/cw1200_wlan.ko
+#    insmod /system/lib/modules/cw1200_wlan.ko
 
 ## Daemon processes to be run by init.
 ##
@@ -520,7 +520,7 @@ service thermald /system/bin/thermald
     disabled  # To be removed!
 
 # STE
-service wpa_supplicant /system/bin/logwrapper /system/bin/wpa_supplicant -dd -Dnl80211 -i wlan0
+service wpa_supplicant /system/bin/logwrapper /system/bin/wpa_supplicant -dd -Dnl80211 -iwlan0 -c /data/misc/wifi/wpa_supplicant.conf
     class main
     socket wpa_wlan0 dgram 660 wifi wifi
     disabled
