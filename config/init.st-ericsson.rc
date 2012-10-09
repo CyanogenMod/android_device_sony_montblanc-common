@@ -262,9 +262,9 @@ on boot
     chown system system /sys/class/leds/green/use_pattern
     chown system system /sys/class/leds/blue/brightness
     chown system system /sys/class/leds/blue/use_pattern
+    chown system system /sys/class/leds/so34-led0/brightness
     chown system system /sys/class/leds/so34-led1/brightness
     chown system system /sys/class/leds/so34-led2/brightness
-    chown system system /sys/class/leds/so34-led3/brightness
     chown system system /sys/bus/i2c/drivers/as3677/2-0040/pattern_data
     chown system system /sys/bus/i2c/drivers/as3677/2-0040/pattern_delay
     chown system system /sys/bus/i2c/drivers/as3677/2-0040/pattern_duration_secs
