@@ -390,12 +390,6 @@ on boot
 # SEMC: Change permission for MTP device file
     chmod 0666 /dev/mtp
 
-# SEMC: Disable C_A_D
-    exec system/bin/ctrlaltdel soft
-
-# SoMC: Check if ENG enabled
-    exec /system/bin/usbeng
-
 # SEMC: Include IO wait time into CPU usage calculation to increase IO performance
     write /sys/devices/system/cpu/cpufreq/ondemand/io_is_busy 1
 
@@ -457,18 +451,6 @@ service modem-supervisor /system/bin/modem-supervisor -r -f /dev/dbx500_mloader_
 service copsd /system/bin/copsdaemon
     class modem-core
     user root
-
-#STE: Modem_log_relay
-service modem_log_relay /system/bin/modem_log_relay --ctrl_port=2001 --data_port=2002 --inv_port=2003 --report_port=2005
-    class modem
-    user root
-    disabled
-
-on property:persist.modem.log.service=1
-    start modem_log_relay
-
-on property:persist.modem.log.service=0
-    stop modem_log_relay
 
 service admsrv /system/bin/logwrapper /system/bin/admsrv
     class main
@@ -731,3 +713,21 @@ service suntrold /system/bin/suntrold
 #    user root
 #    group radio
 #    oneshot
+
+# SEMC: Disable C_A_D
+#    exec system/bin/ctrlaltdel soft
+
+# SoMC: Check if ENG enabled
+#    exec /system/bin/usbeng
+
+#STE: Modem_log_relay
+#service modem_log_relay /system/bin/modem_log_relay --ctrl_port=2001 --data_port=2002 --inv_port=2003 --report_port=2005
+#    class modem
+#    user root
+#    disabled
+
+#on property:persist.modem.log.service=1
+#    start modem_log_relay
+
+#on property:persist.modem.log.service=0
+#    stop modem_log_relay
