@@ -10,6 +10,9 @@
 /dev/db8500-modem-trace   0600   system     system
 /dev/dbx500_mloader_fw    0600   system     system
 
+#modem storage pipe
+/dev/rpc                  0600   radio      radio
+
 # camera and flash devices
 /dev/mmio_camera          0666   media      system
 /dev/camera_flash         0666   media      system
