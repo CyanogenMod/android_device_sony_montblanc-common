@@ -55,6 +55,9 @@
 #NFC device
 /dev/pn544                0600   nfc        nfc
 
+#MTP
+/dev/mtp                  0666   system     system
+
 /sys/devices/platform/musb-ux500.0/musb-hdrc/usb* uevent 0660 root usb
 /dev/input/event10                                 0666 system system
 /sys/bus/i2c/devices/2-0037/als                    0666 system system
