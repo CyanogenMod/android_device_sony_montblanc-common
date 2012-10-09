@@ -550,27 +550,6 @@ service cn_server /system/bin/cn_server
     user root
     group radio misc
 
-# STE, PS connection control
-service init_stepscc /system/bin/sh /data/misc/psdata/stepscc_init.sh
-    class main
-    oneshot
-
-service psccd /system/bin/psccd -f -c /data/misc/psdata/stepscc_conf
-    class modem
-    user root
-    group radio inet
-
-# STE, PS routing control
-service init_sterc /system/bin/sh /data/misc/psdata/sterc_init.sh
-    class main
-    oneshot
-
-service stercd /system/bin/stercd -d 9 -r /data/misc/psdata/sterc_script_connect -s /data/misc/psdata/sterc_script_disconnect -c /data/misc/psdata/sterc_conf
-    class modem
-    user root
-    group radio
-    oneshot
-
 # STE, SIM daemon
 service simd /system/bin/simd
     class modem-core
@@ -614,7 +593,6 @@ service battery_params /system/xbin/battery_params
 service rtc_calibration /system/bin/rtc_calibration
     user root
 
-
 service hw_config /system/bin/sh /system/etc/hw_config.sh
     class main
     user root
@@ -626,33 +604,6 @@ service tad /system/bin/tad /dev/block/mmcblk0 9,4,256
     group root
     socket tad stream 0660 system system
     class trimarea
-
-# STE
-#service lbsd /system/bin/lbsd
-#    class main
-#    user root
-#    group radio
-#    disabled
-
-# SEMC: Set the startup flag to boot complete, run on property change
-#service setssflagbc /system/bin/startupflag bootcomplete
-#    class main
-#    user root
-#    oneshot
-#    disabled
-
-# SEMC: FOTA snooping
-#service fota-snoop /system/bin/fota-snoop
-#    class main
-#    group cache
-#    oneshot
-#    disabled
-
-# SEMC: Start startupflag
-#on property:dev.bootcomplete=1
-#    start setssflagbc
-#    start fota-snoop
-#    start lbsd
 
 # SEMC: Updatemiscta
 service updatemiscta /system/bin/updatemiscta
@@ -714,7 +665,6 @@ service suntrold /system/bin/suntrold
 #service system_monitor /system/bin/system_monitor
 #    user root
 
-
 #service illumination /system/bin/illumination_service
 #    class main
 #    user root
@@ -722,7 +672,6 @@ service suntrold /system/bin/suntrold
 #service kexec /system/xbin/kexec.dyn -p
 #    class main
 #    oneshot
-
 
 #service media /system/bin/logwrapper /system/bin/mediaserver
 #    class main
@@ -744,3 +693,51 @@ service suntrold /system/bin/suntrold
 #service avahi-publish /system/bin/avahi-publish -s READY _mobile._tcp 5353
 #    class main
 #    user root
+# SEMC: Set the startup flag to boot complete, run on property change
+
+#service setssflagbc /system/bin/startupflag bootcomplete
+#    class main
+#    user root
+#    oneshot
+#    disabled
+
+# SEMC: FOTA snooping
+#service fota-snoop /system/bin/fota-snoop
+#    class main
+#    group cache
+#    oneshot
+#    disabled
+
+# SEMC: Start startupflag
+#on property:dev.bootcomplete=1
+#    start setssflagbc
+#    start fota-snoop
+#    start lbsd
+
+# STE
+#service lbsd /system/bin/lbsd
+#    class main
+#    user root
+#    group radio
+#    disabled
+
+# STE, PS connection control
+#service init_stepscc /system/bin/sh /data/misc/psdata/stepscc_init.sh
+#    class main
+#    oneshot
+
+#service psccd /system/bin/psccd -f -c /data/misc/psdata/stepscc_conf
+#    class modem
+#    user root
+#    group radio inet
+
+# STE, PS routing control
+#service init_sterc /system/bin/sh /data/misc/psdata/sterc_init.sh
+#    class main
+#    oneshot
+
+#service stercd /system/bin/stercd -d 9 -r /data/misc/psdata/sterc_script_connect -s /data/misc/psdata/sterc_script_disconnect -c /data/misc/psdata/sterc_conf
+#    class modem
+#    user root
+#    group radio
+#    oneshot
