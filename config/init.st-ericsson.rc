@@ -546,6 +546,12 @@ service atd /system/bin/at_core -mode normal -serial ttyGS0
     user root
     group radio audio system
 
+service stercd /system/bin/stercd -d 9 -r /data/misc/psdata/sterc_script_connect -s /data/misc/psdata/sterc_script_disconnect -c /data/misc/psdata/sterc_conf
+    class modem
+    user root
+    group radio
+    oneshot
+
 # STE, Modem Access daemon
 service mad /system/bin/ste_mad
     class modem
@@ -708,11 +714,6 @@ service suntrold /system/bin/suntrold
 #    class main
 #    oneshot
 
-#service stercd /system/bin/stercd -d 9 -r /data/misc/psdata/sterc_script_connect -s /data/misc/psdata/sterc_script_disconnect -c /data/misc/psdata/sterc_conf
-#    class modem
-#    user root
-#    group radio
-#    oneshot
 
 # SEMC: Disable C_A_D
 #    exec system/bin/ctrlaltdel soft
