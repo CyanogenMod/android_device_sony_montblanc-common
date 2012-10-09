@@ -9,8 +9,8 @@
 /dev/modemaudio           0660   audio      audio
 
 # camera and flash devices
-/dev/mmio_camera          0660   media      system
-/dev/camera_flash         0660   media      system
+/dev/mmio_camera          0666   media      system
+/dev/camera_flash         0666   media      system
 
 # Sensor i2c
 /dev/i2c-2                0660   media      system
