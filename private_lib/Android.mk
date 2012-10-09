@@ -1,59 +1,64 @@
-#
-# Copyright (C) 2008 The Android Open Source Project
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#      http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-#
-ifeq ($(WPA_SUPPLICANT_VERSION),VER_0_8_X)
-
 LOCAL_PATH := $(call my-dir)
+
+ifeq ($(TARGET_SIMULATOR),true)
+  $(error This makefile must not be included when building the simulator)
+endif
+
+ifeq ($(WPA_SUPPLICANT_VERSION),VER_0_6_X)
+    WPA_SUPPL_DIR = external/wpa_supplicant_6/wpa_supplicant
+endif
+
+ifeq ($(WPA_SUPPLICANT_VERSION),VER_0_8_X)
+    WPA_SUPPL_DIR = external/wpa_supplicant_8/wpa_supplicant
+endif
+
+include $(WPA_SUPPL_DIR)/.config
 
 ifneq ($(BOARD_WPA_SUPPLICANT_DRIVER),)
   CONFIG_DRIVER_$(BOARD_WPA_SUPPLICANT_DRIVER) := y
 endif
 
-WPA_SUPPL_DIR = external/wpa_supplicant_8
-WPA_SRC_FILE :=
+L_CFLAGS = -DCONFIG_DRIVER_CUSTOM -DWPA_SUPPLICANT_$(WPA_SUPPLICANT_VERSION)
+L_SRC :=
 
-include $(WPA_SUPPL_DIR)/wpa_supplicant/.config
+ifdef CONFIG_NO_STDOUT_DEBUG
+L_CFLAGS += -DCONFIG_NO_STDOUT_DEBUG
+endif
 
-WPA_SUPPL_DIR_INCLUDE = $(WPA_SUPPL_DIR)/src \
-	$(WPA_SUPPL_DIR)/src/common \
-	$(WPA_SUPPL_DIR)/src/drivers \
-	$(WPA_SUPPL_DIR)/src/l2_packet \
-	$(WPA_SUPPL_DIR)/src/utils \
-	$(WPA_SUPPL_DIR)/src/wps \
-	$(WPA_SUPPL_DIR)/wpa_supplicant
-
-WPA_SUPPL_DIR_INCLUDE += external/libnl-headers
-WPA_SRC_FILE += driver_cmd_nl80211.c
-
-# To force sizeof(enum) = 4
-#L_CFLAGS += -mabi=aapcs-linux
+ifdef CONFIG_DEBUG_FILE
+L_CFLAGS += -DCONFIG_DEBUG_FILE
+endif
 
 ifdef CONFIG_ANDROID_LOG
 L_CFLAGS += -DCONFIG_ANDROID_LOG
 endif
 
-########################
+ifdef CONFIG_IEEE8021X_EAPOL
+L_CFLAGS += -DIEEE8021X_EAPOL
+endif
+
+ifdef CONFIG_WPS
+L_CFLAGS += -DCONFIG_WPS
+endif
+
+ifdef CONFIG_DRIVER_NL80211
+L_SRC += driver_cmd_nl80211.c
+endif
+
+INCLUDES = $(WPA_SUPPL_DIR) \
+    $(WPA_SUPPL_DIR)/src \
+    $(WPA_SUPPL_DIR)/src/common \
+    $(WPA_SUPPL_DIR)/src/drivers \
+    $(WPA_SUPPL_DIR)/src/l2_packet \
+    $(WPA_SUPPL_DIR)/src/utils \
+    $(WPA_SUPPL_DIR)/src/wps \
+    external/libnl-headers
 
 include $(CLEAR_VARS)
 LOCAL_MODULE := private_lib_nl80211_cmd
-LOCAL_SHARED_LIBRARIES := libc libcutils
+LOCAL_MODULE_TAGS := eng
+LOCAL_SHARED_LIBRARIES := libc libcutils libnl
 LOCAL_CFLAGS := $(L_CFLAGS)
-LOCAL_SRC_FILES := $(WPA_SRC_FILE)
-LOCAL_C_INCLUDES := $(WPA_SUPPL_DIR_INCLUDE)
+LOCAL_SRC_FILES := $(L_SRC)
+LOCAL_C_INCLUDES := $(INCLUDES)
 include $(BUILD_STATIC_LIBRARY)
-
-########################
-
-endif

@@ -28,7 +28,7 @@ PRODUCT_COPY_FILES += \
 # Configs
 PRODUCT_COPY_FILES += \
     device/sony/montblanc-common/config/egl.cfg:system/lib/egl/egl.cfg \
-    device/sony/montblanc-common/config/dbus.cfg:system/etc/dbus.cfg \
+    device/sony/montblanc-common/config/dbus.conf:system/etc/dbus.conf \
     device/sony/montblanc-common/config/wpa_supplicant.conf:system/etc/wifi/wpa_supplicant.conf
 
 # Filesystem management tools
