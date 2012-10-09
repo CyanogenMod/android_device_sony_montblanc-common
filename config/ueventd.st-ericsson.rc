@@ -46,8 +46,8 @@
 # AT USB device - used by ATC
 /dev/ttyGS0               0060   root       radio
 
-# modem storage pipe
-/dev/rpc                  0600   radio      radio
+# audio shm
+/dev/shm                  0660   audio      audio
 
 # Trusted Eexecution Engine
 /dev/tee                  0660   root       system
