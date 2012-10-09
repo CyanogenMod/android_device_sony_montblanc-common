@@ -203,33 +203,33 @@ on post-fs-data
     chmod 0770 /data/misc/wifi/wpa_supplicant.conf
 
     # give system access to sterc_script when enabling usb nap
-    copy -u /system/etc/psdata/sterc_conf /data/misc/psdata/sterc_conf
-    copy -u /system/etc/psdata/sterc_script_connect /data/misc/psdata/sterc_script_connect
-    copy -u /system/etc/psdata/sterc_script_disconnect /data/misc/psdata/sterc_script_disconnect
-    copy -u /system/etc/psdata/sterc_conf_alt /data/misc/psdata/sterc_conf_alt
-    copy -u /system/etc/psdata/sterc_script_connect_alt /data/misc/psdata/sterc_script_connect_alt
-    copy -u /system/etc/psdata/sterc_script_connect_dun /data/misc/psdata/sterc_script_connect_dun
-    copy -u /system/etc/psdata/sterc_script_disconnect_dun /data/misc/psdata/sterc_script_disconnect_dun
-    chmod 0660 /data/misc/psdata/sterc_conf
-    chmod 0500 /data/misc/psdata/sterc_script_connect
-    chmod 0500 /data/misc/psdata/sterc_script_disconnect
-    chmod 0660 /data/misc/psdata/sterc_conf_alt
-    chmod 0500 /data/misc/psdata/sterc_script_connect_alt
-    chmod 0500 /data/misc/psdata/sterc_script_connect_dun
-    chmod 0500 /data/misc/psdata/sterc_script_disconnect_dun
-    chown root radio /data/misc/psdata/sterc_conf
-    chown root radio /data/misc/psdata/sterc_conf_alt
+    #copy -u /system/etc/psdata/sterc_conf /data/misc/psdata/sterc_conf
+    #copy -u /system/etc/psdata/sterc_script_connect /data/misc/psdata/sterc_script_connect
+    #copy -u /system/etc/psdata/sterc_script_disconnect /data/misc/psdata/sterc_script_disconnect
+    #copy -u /system/etc/psdata/sterc_conf_alt /data/misc/psdata/sterc_conf_alt
+    #copy -u /system/etc/psdata/sterc_script_connect_alt /data/misc/psdata/sterc_script_connect_alt
+    #copy -u /system/etc/psdata/sterc_script_connect_dun /data/misc/psdata/sterc_script_connect_dun
+    #copy -u /system/etc/psdata/sterc_script_disconnect_dun /data/misc/psdata/sterc_script_disconnect_dun
+    #chmod 0660 /data/misc/psdata/sterc_conf
+    #chmod 0500 /data/misc/psdata/sterc_script_connect
+    #chmod 0500 /data/misc/psdata/sterc_script_disconnect
+    #chmod 0660 /data/misc/psdata/sterc_conf_alt
+    #chmod 0500 /data/misc/psdata/sterc_script_connect_alt
+    #chmod 0500 /data/misc/psdata/sterc_script_connect_dun
+    #chmod 0500 /data/misc/psdata/sterc_script_disconnect_dun
+    #chown root radio /data/misc/psdata/sterc_conf
+    #chown root radio /data/misc/psdata/sterc_conf_alt
 
     # give system access to stepscc_conf
-    copy -u /system/etc/psdata/stepscc_conf /data/misc/psdata/stepscc_conf
-    chmod 0660 /data/misc/psdata/stepscc_conf
-    chown root radio /data/misc/psdata/stepscc_conf
+    #copy -u /system/etc/psdata/stepscc_conf /data/misc/psdata/stepscc_conf
+    #chmod 0660 /data/misc/psdata/stepscc_conf
+    #chown root radio /data/misc/psdata/stepscc_conf
 
     # Setup paths used for socket communication with the wpa supplicant.
     mkdir /data/system 0775 system system
-#    mkdir /data/system/wpa_supplicant 0770 wifi wifi
-    chown system system /data/system
-#    chown wifi wifi /data/system/wpa_supplicant
+    #mkdir /data/system/wpa_supplicant 0770 wifi wifi
+    #chown system system /data/system
+    #chown wifi wifi /data/system/wpa_supplicant
 
     # Setup paths used for socket communication with the dhcp daemon(dhcpd)
     mkdir /data/misc/dhcp 0770 dhcp dhcp
