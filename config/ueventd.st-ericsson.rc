@@ -52,6 +52,8 @@
 # Trusted Eexecution Engine
 /dev/tee                  0660   root       system
 
+#NFC device
+/dev/pn544                0600   nfc        nfc
 
 /sys/devices/platform/musb-ux500.0/musb-hdrc/usb* uevent 0660 root usb
 /dev/input/event10                                 0666 system system
