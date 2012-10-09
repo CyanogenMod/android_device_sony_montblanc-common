@@ -73,11 +73,6 @@ on init
     chmod 664 /sys/devices/sensor00/enabled
     chmod 664 /sys/devices/sensor00/bsr
 
-    # USB gadget initial setup
-    #write /sys/class/android_usb/android0/bDeviceClass 0
-    #write /sys/class/android_usb/android0/iManufacturer $ro.product.manufacturer
-    #write /sys/class/android_usb/android0/iProduct $ro.product.model
-
     # chown for sim detect
     chown root radio /sys/class/sim_card/sim_status
 
@@ -257,10 +252,6 @@ on post-fs-data
     chmod 0600 /dev/rpc
     chown system system /sys/devices/platform/musb-ux500.0/musb-hdrc/gadget/lun1/file
     chmod 0660 /sys/devices/platform/musb-ux500.0/musb-hdrc/gadget/lun1/file
-    write /sys/class/android_usb/f_mass_storage/inquiry_string "SONY    Mass storage    0100"
-    write /sys/class/android_usb/f_cdrom/cdrom_inquiry_string "SONY    CD-ROM          0100"
-    write /sys/class/android_usb/f_mass_storage/serial_number $ro.serialno
-    write /sys/class/android_usb/f_mass_storage/eui64_id 000AD90000000000
     write /sys/devices/platform/musb-ux500.0/musb-hdrc/gadget/lun0/nofua 1
     write /sys/devices/platform/musb-ux500.0/musb-hdrc/gadget/lun1/nofua 1
 
@@ -478,7 +469,6 @@ on property:persist.modem.log.service=1
 
 on property:persist.modem.log.service=0
     stop modem_log_relay
-
 
 service admsrv /system/bin/logwrapper /system/bin/admsrv
     class main
