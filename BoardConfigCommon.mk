@@ -50,6 +50,7 @@ BOARD_EGL_CFG := device/sony/montblanc-common/config/egl.cfg
 TARGET_PROVIDES_LIBLIGHTS := true
 
 # Custom boot
+TARGET_PROVIDES_INIT_RC := true
 TARGET_RECOVERY_PRE_COMMAND := "touch /cache/recovery/boot;sync;"
 BOARD_CUSTOM_BOOTIMG_MK := device/sony/montblanc-common/custombootimg.mk
 TARGET_RELEASETOOL_OTA_FROM_TARGET_SCRIPT := device/sony/montblanc-common/releasetools/semc_ota_from_target_files
