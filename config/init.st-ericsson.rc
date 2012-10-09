@@ -608,21 +608,6 @@ service mad /system/bin/ste_mad
     user radio
     group radio dbus_access misc
 
-#STE: Avahi Autoip daemon
-service avahi-autoipd /system/bin/avahi-autoipd usb0 -D
-    class main
-    user root
-
-#STE: Avahi daemon
-service avahi-daemon /system/bin/avahi-daemon
-    class main
-    user root
-
-#STE: Avahi-publish
-service avahi-publish /system/bin/avahi-publish -s READY _mobile._tcp 5353
-    class main
-    user root
-
 service watchdog-kicker /system/xbin/watchdog-kicker -d /dev/watchdog -t 120
     class main
     oneshot
@@ -744,3 +729,18 @@ service suntrold /system/bin/suntrold
 #    user root
 #    group system audio camera inet net_bt net_bt_admin net_bw_acct drmrpc input
 #    ioprio rt 4
+
+#STE: Avahi Autoip daemon
+#service avahi-autoipd /system/bin/avahi-autoipd usb0 -D
+#    class main
+#    user root
+
+#STE: Avahi daemon
+#service avahi-daemon /system/bin/avahi-daemon
+#    class main
+#    user root
+
+#STE: Avahi-publish
+#service avahi-publish /system/bin/avahi-publish -s READY _mobile._tcp 5353
+#    class main
+#    user root
