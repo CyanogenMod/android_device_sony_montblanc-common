@@ -198,27 +198,27 @@ on post-fs-data
     chmod 0770 /data/misc/wifi/wpa_supplicant.conf
 
     # give system access to sterc_script when enabling usb nap
-    #copy -u /system/etc/psdata/sterc_conf /data/misc/psdata/sterc_conf
-    #copy -u /system/etc/psdata/sterc_script_connect /data/misc/psdata/sterc_script_connect
-    #copy -u /system/etc/psdata/sterc_script_disconnect /data/misc/psdata/sterc_script_disconnect
-    #copy -u /system/etc/psdata/sterc_conf_alt /data/misc/psdata/sterc_conf_alt
-    #copy -u /system/etc/psdata/sterc_script_connect_alt /data/misc/psdata/sterc_script_connect_alt
-    #copy -u /system/etc/psdata/sterc_script_connect_dun /data/misc/psdata/sterc_script_connect_dun
-    #copy -u /system/etc/psdata/sterc_script_disconnect_dun /data/misc/psdata/sterc_script_disconnect_dun
-    #chmod 0660 /data/misc/psdata/sterc_conf
-    #chmod 0500 /data/misc/psdata/sterc_script_connect
-    #chmod 0500 /data/misc/psdata/sterc_script_disconnect
-    #chmod 0660 /data/misc/psdata/sterc_conf_alt
-    #chmod 0500 /data/misc/psdata/sterc_script_connect_alt
-    #chmod 0500 /data/misc/psdata/sterc_script_connect_dun
-    #chmod 0500 /data/misc/psdata/sterc_script_disconnect_dun
-    #chown root radio /data/misc/psdata/sterc_conf
-    #chown root radio /data/misc/psdata/sterc_conf_alt
+    copy -u /system/etc/psdata/sterc_conf /data/misc/psdata/sterc_conf
+    copy -u /system/etc/psdata/sterc_script_connect /data/misc/psdata/sterc_script_connect
+    copy -u /system/etc/psdata/sterc_script_disconnect /data/misc/psdata/sterc_script_disconnect
+    copy -u /system/etc/psdata/sterc_conf_alt /data/misc/psdata/sterc_conf_alt
+    copy -u /system/etc/psdata/sterc_script_connect_alt /data/misc/psdata/sterc_script_connect_alt
+    copy -u /system/etc/psdata/sterc_script_connect_dun /data/misc/psdata/sterc_script_connect_dun
+    copy -u /system/etc/psdata/sterc_script_disconnect_dun /data/misc/psdata/sterc_script_disconnect_dun
+    chmod 0660 /data/misc/psdata/sterc_conf
+    chmod 0500 /data/misc/psdata/sterc_script_connect
+    chmod 0500 /data/misc/psdata/sterc_script_disconnect
+    chmod 0660 /data/misc/psdata/sterc_conf_alt
+    chmod 0500 /data/misc/psdata/sterc_script_connect_alt
+    chmod 0500 /data/misc/psdata/sterc_script_connect_dun
+    chmod 0500 /data/misc/psdata/sterc_script_disconnect_dun
+    chown root radio /data/misc/psdata/sterc_conf
+    chown root radio /data/misc/psdata/sterc_conf_alt
 
     # give system access to stepscc_conf
-    #copy -u /system/etc/psdata/stepscc_conf /data/misc/psdata/stepscc_conf
-    #chmod 0660 /data/misc/psdata/stepscc_conf
-    #chown root radio /data/misc/psdata/stepscc_conf
+    opy -u /system/etc/psdata/stepscc_conf /data/misc/psdata/stepscc_conf
+    chmod 0660 /data/misc/psdata/stepscc_conf
+    chown root radio /data/misc/psdata/stepscc_conf
 
     # Setup paths used for socket communication with the wpa supplicant.
     mkdir /data/system 0775 system system
@@ -546,6 +546,21 @@ service atd /system/bin/at_core -mode normal -serial ttyGS0
     user root
     group radio audio system
 
+# STE, PS connection control
+service init_stepscc /system/bin/sh /data/misc/psdata/stepscc_init.sh
+    class main
+    oneshot
+
+#service psccd /system/bin/psccd -f -c /data/misc/psdata/stepscc_conf
+    class modem
+    user root
+    group radio inet
+
+# STE, PS routing control
+service init_sterc /system/bin/sh /data/misc/psdata/sterc_init.sh
+    class main
+    oneshot
+
 service stercd /system/bin/stercd -d 9 -r /data/misc/psdata/sterc_script_connect -s /data/misc/psdata/sterc_script_disconnect -c /data/misc/psdata/sterc_conf
     class modem
     user root
@@ -698,22 +713,6 @@ service suntrold /system/bin/suntrold
 #    user root
 #    group radio
 #    disabled
-
-# STE, PS connection control
-#service init_stepscc /system/bin/sh /data/misc/psdata/stepscc_init.sh
-#    class main
-#    oneshot
-
-#service psccd /system/bin/psccd -f -c /data/misc/psdata/stepscc_conf
-#    class modem
-#    user root
-#    group radio inet
-
-# STE, PS routing control
-#service init_sterc /system/bin/sh /data/misc/psdata/sterc_init.sh
-#    class main
-#    oneshot
-
 
 # SEMC: Disable C_A_D
 #    exec system/bin/ctrlaltdel soft
