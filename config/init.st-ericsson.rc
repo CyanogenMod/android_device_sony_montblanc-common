@@ -369,11 +369,6 @@ service admsrv /system/bin/admsrv
     ioprio rt 4
     capability NET_ADMIN NET_RAW SYS_NICE
 
-service hdmid /system/bin/hdmid
-    class main
-    socket hdmid stream 0660 system graphics
-    oneshot
-
 service ste-cg29xx_ctrl /system/xbin/ste-cg29xx_ctrl -b 115200 -p 6 -l 23 -i /system/bin/cg2900-channel_init.sh /dev/ttyAMA0
     class main
     user root
@@ -463,13 +458,11 @@ service psccd /system/bin/psccd -f -c /data/misc/psdata/stepscc_conf
     group radio inet
 
 # STE, PS routing control
-
 service stercd /system/bin/stercd -d 9 -r /data/misc/psdata/sterc_script_connect -s /data/misc/psdata/sterc_script_disconnect -c /data/misc/psdata/sterc_conf
     class modem
     user root
     group radio
     oneshot
-
 
 # STE userspace service for GPS
 service lbsd /system/bin/lbsd
@@ -523,13 +516,6 @@ service semcwall /system/bin/semcwall
     class main
     user root
 
-service hdmiproxyd /system/bin/hdmiproxyd
-    class main
-    user system
-    group graphics
-    socket hdmid stream 0660 system system
-    socket hdmic stream 0660 system system
-
 service usbid_init /system/bin/usbid_init.sh
     class main
     oneshot
@@ -547,3 +533,15 @@ service suntrold /system/bin/suntrold
 #service illumination /system/bin/illumination_service
 #    class main
 #    user root
+
+#service hdmid /system/bin/hdmid
+#    class main
+#    socket hdmid stream 0660 system graphics
+#    oneshot
+
+#service hdmiproxyd /system/bin/hdmiproxyd
+#    class main
+#    user system
+#    group graphics
+#    socket hdmid stream 0660 system system
+#    socket hdmic stream 0660 system system
