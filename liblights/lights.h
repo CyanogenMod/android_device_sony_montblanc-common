@@ -23,4 +23,4 @@ char const*const BUTTON_BACKLIGHT_FILE[] = {
 
 char const*const LCD_BACKLIGHT_FILE		= "/sys/class/leds/lcd-backlight/brightness";
 
-char const*const ALS_FILE			= "/sys/class/leds/lcd-backlight/als/enable";
+//char const*const ALS_FILE			= "/sys/class/leds/lcd-backlight/als/enable";

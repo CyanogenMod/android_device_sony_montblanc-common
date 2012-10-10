@@ -44,6 +44,7 @@ USE_OPENGL_RENDERER := true
 BOARD_EGL_CFG := device/sony/montblanc-common/config/egl.cfg
 
 TARGET_PROVIDES_LIBLIGHTS := true
+#BOARD_SYSFS_LIGHT_SENSOR := /sys/class/leds/lcd-backlight/als_enable
 
 # Custom boot
 TARGET_PROVIDES_INIT_RC := true
