@@ -325,9 +325,8 @@ on boot
     chmod 0664 /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
     chown root system /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
 
-    insmod /system/lib/modules/cw1200_core.ko
-    insmod /system/lib/modules/cw1200_wlan.ko
-
+    #Load wifi modules and MAC setup
+    exec /system/bin/install_wlan
 
 # Crash Safe Parameter Storage Area, serving production parameter requests from clients.
 # Configuration is read from file "/etc/cspsa.conf" and each found area spawns a CSPSA server
@@ -472,12 +471,11 @@ service stercd /system/bin/stercd -d 9 -r /data/misc/psdata/sterc_script_connect
     oneshot
 
 
-# STE
+# STE userspace service for GPS
 service lbsd /system/bin/lbsd
     class main
     user root
     group radio
-    disabled
 
 # STE, Modem Access daemon
 service mad /system/bin/ste_mad
@@ -541,24 +539,6 @@ service suntrold /system/bin/suntrold
     user system
     group system
     oneshot
-
-# Install CW1200 WLAN core driver
-#service wlan_core /system/bin/sh /system/etc/wifi/install_wlan_core.sh
-#    user root
-#    oneshot
-
-# Regulatory domain handling
-#service initial_regdom /system/bin/iw reg set US
-#    disabled
-#    oneshot
-
-# To prevent connection to channel 12, 13 in flight mode/no coverage/no sim case at startup.
-#on property:wlan.driver.status=ok
-#   start initial_regdom
-
-# To prevent connection to channel 12, 13 in flight mode
-#on property:init.svc.wpa_supplicant=stopped
-#   start initial_regdom
 
 # SEMC System monitor
 #service system_monitor /system/bin/system_monitor

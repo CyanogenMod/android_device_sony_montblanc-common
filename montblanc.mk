@@ -78,6 +78,7 @@ PRODUCT_COPY_FILES += \
 PRODUCT_COPY_FILES += \
     device/sony/montblanc-common/config/omxloaders:system/etc/omxloaders \
     device/sony/montblanc-common/config/ril_config:system/etc/ril_config \
+    device/sony/montblanc-common/config/install_wlan:system/bin/install_wlan \
     device/sony/montblanc-common/config/ste_modem.sh:system/etc/ste_modem.sh
 
 PRODUCT_PROPERTY_OVERRIDES += \
