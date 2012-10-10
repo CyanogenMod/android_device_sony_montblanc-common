@@ -65,7 +65,6 @@
 /sys/bus/i2c/devices/2-0053/status                 0666 system system
 /sys/bus/i2c/devices/2-0053/torch_enable           0666 system system
 /dev/rfkill                                        0660 wifi   wifi
-/sys/class/rfkill/rfkill1/state                    0666 bluetooth bluetooth
 /sys/devices/av8100_hdmi* disponoff                0660 root system
 /sys/devices/av8100_hdmi* hdmisdtvswitch           0660 root system
 /dev/hdmi                                          0660 root system

@@ -14,6 +14,7 @@ then
   stop ta_rmt_service
   stop rmt_storage
   stop tad
+  stop cspsa-server
 
   mount -o remount,rw rootfs /
   umount -l /system
@@ -21,7 +22,7 @@ then
   umount -l /cache
   umount -l /mnt/sdcard
   rm -r /sdcard
-  rm -r /not/sdcard
+  rm -r /mnt/sdcard
   mkdir /sdcard
   mkdir /tmp
   rm /etc
