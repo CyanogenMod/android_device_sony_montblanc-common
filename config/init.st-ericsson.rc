@@ -1,18 +1,11 @@
 import init.st-ericsson.usb.rc
 
-on early-boot
-    #start recovery
-    exec /sbin/bootrec
-
-    # Start the offline charging
-    exec /system/bin/chargemon
-
 on init
-# setup the global environment
+    # setup the global environment
     export OMX_STE_ENS_COMPONENTS_DIR /system/lib/ste_omxcomponents/
     export OMX_BELLAGIO_LOADER_REGISTRY /system/etc/omxloaders
 
-# create mountpoints
+    # create mountpoints
     mkdir /mnt/sdcard 0000 system system
     symlink /mnt/sdcard /sdcard
 
@@ -82,7 +75,6 @@ on fs
     mount ext4 /dev/block/mmcblk0p12 /cache nosuid nodev noatime
     mount ext4 /dev/block/mmcblk0p6 /modemfs nosuid nodev noatime
 
-start cspsa
 
     # SEMC: Start the TrimArea Daemon and early TA-users
     class_start trimarea
@@ -121,7 +113,7 @@ on post-fs
     chown radio radio /modemfs/PERM/PROT/PPVALUES.DAT
     chmod 0644 /modemfs/PERM/PROT/PPVALUES.DAT
 
-# STE: Set permissions for wake locks before services are launched that use them
+    # STE: Set permissions for wake locks before services are launched that use them
     chown radio system /sys/power/state
     chown radio system /sys/power/wake_lock
     chown radio system /sys/power/wake_unlock
@@ -144,7 +136,7 @@ on post-fs-data
     mkdir /data/misc/psdata
 
     # give system access to ril_config
-    cp -f /system/etc/ril_config /data/misc/ril_config
+    copy -u /system/etc/ril_config /data/misc/ril_config
     chmod 0660 /data/misc/ril_config
     chown root radio /data/misc/ril_config
 
@@ -162,13 +154,13 @@ on post-fs-data
     chmod 0770 /data/misc/wifi/wpa_supplicant.conf
 
     # give system access to sterc_script when enabling usb nap
-    cp -f /system/etc/psdata/sterc_conf /data/misc/psdata/sterc_conf
-    cp -f /system/etc/psdata/sterc_script_connect /data/misc/psdata/sterc_script_connect
-    cp -f /system/etc/psdata/sterc_script_disconnect /data/misc/psdata/sterc_script_disconnect
-    cp -f /system/etc/psdata/sterc_conf_alt /data/misc/psdata/sterc_conf_alt
-    cp -f /system/etc/psdata/sterc_script_connect_alt /data/misc/psdata/sterc_script_connect_alt
-    cp -f /system/etc/psdata/sterc_script_connect_dun /data/misc/psdata/sterc_script_connect_dun
-    cp -f /system/etc/psdata/sterc_script_disconnect_dun /data/misc/psdata/sterc_script_disconnect_dun
+    copy -u /system/etc/psdata/sterc_conf /data/misc/psdata/sterc_conf
+    copy -u /system/etc/psdata/sterc_script_connect /data/misc/psdata/sterc_script_connect
+    copy -u /system/etc/psdata/sterc_script_disconnect /data/misc/psdata/sterc_script_disconnect
+    copy -u /system/etc/psdata/sterc_conf_alt /data/misc/psdata/sterc_conf_alt
+    copy -u /system/etc/psdata/sterc_script_connect_alt /data/misc/psdata/sterc_script_connect_alt
+    copy -u /system/etc/psdata/sterc_script_connect_dun /data/misc/psdata/sterc_script_connect_dun
+    copy -u /system/etc/psdata/sterc_script_disconnect_dun /data/misc/psdata/sterc_script_disconnect_dun
     chmod 0660 /data/misc/psdata/sterc_conf
     chmod 0500 /data/misc/psdata/sterc_script_connect
     chmod 0500 /data/misc/psdata/sterc_script_disconnect
@@ -180,7 +172,7 @@ on post-fs-data
     chown root radio /data/misc/psdata/sterc_conf_alt
 
     # give system access to stepscc_conf
-    cp -f /system/etc/psdata/stepscc_conf /data/misc/psdata/stepscc_conf
+    copy -u /system/etc/psdata/stepscc_conf /data/misc/psdata/stepscc_conf
     chmod 0660 /data/misc/psdata/stepscc_conf
     chown root radio /data/misc/psdata/stepscc_conf
 
@@ -205,19 +197,26 @@ on post-fs-data
     write /sys/devices/platform/musb-ux500.0/musb-hdrc/gadget/lun1/nofua 1
 
 on early-boot
-# STE: Launch core services in case charging mode is entered
+    #start recovery
+    exec /sbin/bootrec
+
+    # Start the offline charging
+    exec /system/bin/chargemon
+
+    start cspsa
+
+    # STE: Launch core services in case charging mode is entered
     start watchdog-kicker
 
-# STE: Prepare modem
+    # STE: Prepare modem
     class_start modem-u8500
     class_start modem-core
 
-# STE: Enable autonomous power management in CM
+    # STE: Enable autonomous power management in CM
     write /sys/module/cm/parameters/enable_auto_pm 1
 
 on boot
-
-# Set timeout value for rmnet stats.
+    # Set timeout value for rmnet stats.
     write /sys/devices/virtual/net/rmnet0/timeout_suspend 5000000
 
     # Permissions for System Server and daemons.
@@ -237,25 +236,25 @@ on boot
     chown audio audio /sys/devices/system/cpu/usecase/low-power-audio
     chown audio audio /dev/shm
 
-# ST-Ericsson Set radio device and parameters permissions
+    # ST-Ericsson Set radio device and parameters permissions
     chown system system /sys/module/radio_cg2900/parameters/band
     chown system system /sys/module/radio_cg2900/parameters/grid
     chmod 0660 /sys/module/radio_cg2900/parameters/band
     chmod 0660 /sys/module/radio_cg2900/parameters/grid
 
-# STE: Define support for SIM card hot swap
+    # STE: Define support for SIM card hot swap
     setprop icc.hotswap supported
 
-# Modem
+    # Modem
     class_start modem
     class_start default
 
-# STE: Enable wide-band speech for Bluetooth
+    # STE: Enable wide-band speech for Bluetooth
     setprop bt.hfp.wideband 1
 
     class_start bootstage1
 
-# Permissions for Liblights.
+    # Permissions for Liblights.
     chown system system /sys/class/leds/lcd-backlight/brightness
     chown system system /sys/class/leds/button-backlight/brightness
     chown system system /sys/class/leds/keyboard-backlight/brightness
@@ -272,14 +271,14 @@ on boot
     chown system system /sys/bus/i2c/drivers/as3677/2-0040/pattern_delay
     chown system system /sys/bus/i2c/drivers/as3677/2-0040/pattern_duration_secs
 
-# Permissions for Libals.
+    # Permissions for Libals.
     chown system system /sys/bus/i2c/devices/2-0040/als_on
     chmod 666 /sys/bus/i2c/devices/2-0040/als_on
     chmod 666 /sys/bus/i2c/devices/2-0036/als_enable
     chmod 666 /sys/bus/i2c/devices/2-0036/als_result
     chmod 666 /sys/bus/i2c/devices/2-0037/als
 
-# Permissions for accelerometer and magnetometer.
+    # Permissions for accelerometer and magnetometer.
     chown system system /sys/bus/i2c/devices/2-0018/pollrate_ms
     chown system system /sys/bus/i2c/devices/2-0018/range
     chown system system /sys/bus/i2c/devices/2-0019/pollrate_ms
@@ -288,27 +287,27 @@ on boot
     chown system system /sys/bus/i2c/devices/2-001e/pollrate_ms
     chown system system /sys/bus/i2c/devices/2-001e/range_mg
 
-# Permissions for gyroscope.
+    # Permissions for gyroscope.
     chown system system /sys/bus/i2c/devices/1-0068/pollrate_ms
     chown system system /sys/bus/i2c/devices/1-0068/range
     chmod 664 /sys/bus/i2c/devices/1-0068/pollrate_ms
     chmod 664 /sys/bus/i2c/devices/1-0068/range
 
-# Permissions for ST LPS331AP Pressure Sensor
+    # Permissions for ST LPS331AP Pressure Sensor
     chown system system /sys/bus/i2c/devices/2-005c/poll_period_ms
     chown system system /sys/bus/i2c/devices/2-005c/enable_device
     chown system system /sys/bus/i2c/devices/2-005c/pressure_reference_level
     chown system system /sys/bus/i2c/devices/2-005c/temperature_reference_level
     chown system system /sys/bus/i2c/devices/2-005c/enable_autozero
 
-# Permissions for APDS9702 Proximity Sensor
+    # Permissions for APDS9702 Proximity Sensor
     chown system system /sys/bus/i2c/devices/2-0054/threshold
     chown system system /sys/bus/i2c/devices/2-0054/nburst
     chown system system /sys/bus/i2c/devices/2-0054/freq
     chown system system /sys/bus/i2c/devices/2-0054/cycle
     chown system system /sys/bus/i2c/devices/2-0054/filter
 
-# Permissions for LM356x flash LED
+    # Permissions for LM356x flash LED
     chown system system /sys/bus/i2c/devices/2-0053/torch_enable
     chown system system /sys/bus/i2c/devices/2-0053/torch_current
     chown system system /sys/bus/i2c/devices/2-0053/flash_enable
@@ -324,19 +323,19 @@ on boot
     chmod 666 /sys/bus/i2c/devices/2-0053/flash_synchronization
     chmod 666 /sys/bus/i2c/devices/2-0053/status
 
-# Permissions for LM3560 flash LED
+    # Permissions for LM3560 flash LED
     chown system system /sys/bus/i2c/devices/2-0053/privacy_enable
     chown system system /sys/bus/i2c/devices/2-0053/privacy_current
 
-# SEMC: USB Host support
+    # SEMC: USB Host support
     mkdir /dev/bus/ 0711 system system
     mkdir /dev/bus/usb 0711 system system
 
-# SEMC: Include IO wait time into CPU usage calculation to increase IO performance
+    # SEMC: Include IO wait time into CPU usage calculation to increase IO performance
     write /sys/devices/system/cpu/cpufreq/ondemand/io_is_busy 1
     write /proc/sys/kernel/sysrq 0
 
-# SEMC: Enable Wifi EAP SIM
+    # SEMC: Enable Wifi EAP SIM
     setprop ro.wifi.eap_sim_enabled true
 
     # Stamina Mode
