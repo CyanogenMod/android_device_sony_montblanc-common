@@ -104,11 +104,16 @@ static int rgb_to_brightness (struct light_state_t const* state) {
 /* The actual lights controlling section */
 static int set_light_backlight (struct light_device_t *dev, struct light_state_t const *state) {
 	int err = 0;
+	int enable = 0;
 	int brightness = rgb_to_brightness(state);
+
+	if ((state->brightnessMode == BRIGHTNESS_MODE_SENSOR) && (brightness > 0))
+		enable = 1;
 
 	LOGV("%s brightness=%d", __func__, brightness);
 	pthread_mutex_lock(&g_lock);
-	err = write_int (LCD_BACKLIGHT_FILE, brightness);
+	err = write_int (ALS_FILE, enable);
+	err |= write_int (LCD_BACKLIGHT_FILE, brightness);
 	pthread_mutex_unlock(&g_lock);
 
 	return err;
@@ -144,10 +149,12 @@ static void set_shared_light_locked (struct light_device_t *dev, struct light_st
 	g = (state->color >> 8) & 0xFF;
 	b = (state->color) & 0xFF;
 
-        delayOn = state->flashOnMS;
+	delayOn = state->flashOnMS;
 	delayOff = state->flashOffMS;
 
-	if (state->flashMode != LIGHT_FLASH_NONE) {
+	switch (state->flashMode) {
+	case LIGHT_FLASH_TIMED:
+	case LIGHT_FLASH_HARDWARE:
 		write_string (RED_LED_FILE_TRIGGER, "timer");
 		write_string (GREEN_LED_FILE_TRIGGER, "timer");
 		write_string (BLUE_LED_FILE_TRIGGER, "timer");
@@ -159,10 +166,13 @@ static void set_shared_light_locked (struct light_device_t *dev, struct light_st
 		write_int (RED_LED_FILE_DELAYOFF, delayOff);
 		write_int (GREEN_LED_FILE_DELAYOFF, delayOff);
 		write_int (BLUE_LED_FILE_DELAYOFF, delayOff);
-	} else {
+		break;
+
+	case LIGHT_FLASH_NONE:
 		write_string (RED_LED_FILE_TRIGGER, "none");
 		write_string (GREEN_LED_FILE_TRIGGER, "none");
 		write_string (BLUE_LED_FILE_TRIGGER, "none");
+		break;
 	}
 
 	write_int (RED_LED_FILE, r);
@@ -232,7 +242,7 @@ static int open_lights (const struct hw_module_t* module, char const* name,
 	struct light_device_t *dev = malloc(sizeof (struct light_device_t));
 	memset(dev, 0, sizeof(*dev));
 
-	dev->common.tag 	= HARDWARE_DEVICE_TAG;
+	dev->common.tag		= HARDWARE_DEVICE_TAG;
 	dev->common.version	= 0;
 	dev->common.module 	= (struct hw_module_t*)module;
 	dev->common.close 	= (int (*)(struct hw_device_t*))close_lights;
