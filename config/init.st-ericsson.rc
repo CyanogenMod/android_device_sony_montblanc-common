@@ -24,14 +24,17 @@ on init
 
     # setup the global environment
     export EXTERNAL_STORAGE /mnt/sdcard
-    export SECONDARY_STORAGE /mnt/usbdisk
+    export SECONDARY_STORAGE /mnt/ext_card
     export EXTERNAL_STORAGE_USB /mnt/usbdisk
 
+    # create symlink
     # Create mountpoint for USB disk
+    mkdir /mnt/ext_card 0000 system system
     mkdir /mnt/usbdisk 0000 system system
 
     # Create symlink
     symlink /mnt/sdcard /sdcard
+    symlink /mnt/ext_card /ext_card
     symlink /mnt/usbdisk /usbdisk
 
     # make files in /sys/ non-writable for OTHERS
@@ -261,7 +264,6 @@ on boot
     chmod 660 /sys/class/leds/so34-led1/brightness
     chmod 660 /sys/class/leds/so34-led2/brightness
 
-
     # Permissions for Libals.
     chown system system /sys/bus/i2c/devices/2-0040/als_on
     chmod 666 /sys/bus/i2c/devices/2-0040/als_on
@@ -340,6 +342,10 @@ on boot
     chmod 0664 /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
     chown root system /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
 
+    # chown for signal_disparity and baseline_reset in touch driver
+    chown root input /sys/devices/spi3/spi9.0/signal_disparity
+    chown root input /sys/devices/spi3/spi9.0/baseline_reset
+
     #Load wifi modules and MAC setup
     exec /system/bin/install_wlan
 
@@ -390,13 +396,6 @@ service ste-cg29xx_ctrl /system/xbin/ste-cg29xx_ctrl -b 115200 -p 6 -l 23 -i /sy
     group bluetooth net_bt_admin misc root
     oneshot
 
-service pand /system/bin/pand -s -n -M -A -E -r NAP -u /system/bin/blue-up.sh
-    class main
-    user root
-    group bluetooth net_bt_admin misc
-    disabled
-    oneshot
-
 # STE
 service thermald /system/bin/thermald
     class main
@@ -410,6 +409,13 @@ service wpa_supplicant /system/bin/wpa_supplicant -Dnl80211 -iwlan0
     socket wpa_wlan0 dgram 660 wifi wifi
     disabled
     oneshot
+
+service hostapd /system/bin/hostapd -dddd /data/hostapd/hostapd.conf
+    class late_start
+    user root
+    group root
+    oneshot
+    disabled
 
 # STE
 service dhcpcd_wlan0 /system/bin/dhcpcd -dB -t 30 -o domain_name_servers
@@ -547,11 +553,21 @@ service hdmiproxyd /system/bin/hdmiproxyd
     socket hdmid stream 0660 system system
     socket hdmic stream 0660 system system
 
-# Start suntrold
-service suntrold /system/bin/suntrold
-    user system
-    group system
+service touchd /system/bin/touchd
+    class main
+    user root
+
+# SEMC Battery real capacity updater
+service batcap /system/bin/batcap
+    class main
+    user root
     oneshot
+
+# Start suntrold
+#service suntrold /system/bin/suntrold
+#    user system
+#    group system
+#    oneshot
 
 # SEMC System monitor
 #service system_monitor /system/bin/system_monitor
@@ -561,3 +577,9 @@ service suntrold /system/bin/suntrold
 #    class main
 #    user root
 
+#service pand /system/bin/pand -s -n -M -A -E -r NAP -u /system/bin/blue-up.sh
+#    class main
+#    user root
+#    group bluetooth net_bt_admin misc
+#    disabled
+#    oneshot
