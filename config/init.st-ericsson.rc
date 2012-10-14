@@ -92,13 +92,18 @@ on post-fs
     chown radio radio /modemfs
     chmod 0770 /modemfs
     chown radio radio /modemfs/APPL
+    mkdir /modemfs/APPL
     chmod 0755 /modemfs/APPL
+    mkdir /modemfs/BOOT
     chown radio radio /modemfs/BOOT
     chmod 0755 /modemfs/BOOT
+    mkdir /modemfs/DO
     chown radio radio /modemfs/DO
     chmod 0755 /modemfs/DO
+    mkdir /modemfs/LOG
     chown radio radio /modemfs/LOG
     chmod 0755 /modemfs/LOG
+    mkdir /modemfs/TMP
     chown radio radio /modemfs/TMP
     chmod 0755 /modemfs/TMP
     chown radio radio /modemfs/CONF
@@ -115,6 +120,10 @@ on post-fs
     chmod 0644 /modemfs/PERM/PROT/LABEP.CFG
     chown radio radio /modemfs/PERM/PROT/PPVALUES.DAT
     chmod 0644 /modemfs/PERM/PROT/PPVALUES.DAT
+    touch /modemfs/PERM/PROT/MOM.CFG
+    touch /modemfs/PERM/PROT/F2ND.DAT
+    touch /modemfs/PERM/PROT/FXSTAT.X
+    touch /modemfs/CONF/HALTRACE.CFG
 
     # STE: Set permissions for wake locks before services are launched that use them
     chown radio system /sys/power/state
@@ -410,12 +419,11 @@ service wpa_supplicant /system/bin/wpa_supplicant -Dnl80211 -iwlan0
     disabled
     oneshot
 
-service hostapd /system/bin/hostapd -dddd /data/hostapd/hostapd.conf
-    class late_start
-    user root
-    group root
-    oneshot
+service hostapd /system/bin/hostapd -dddd /data/misc/wifi/hostapd.conf
+    class main
+    socket wpa_wlan1 dgram 660 wifi wifi
     disabled
+    oneshot
 
 # STE
 service dhcpcd_wlan0 /system/bin/dhcpcd -dB -t 30 -o domain_name_servers
