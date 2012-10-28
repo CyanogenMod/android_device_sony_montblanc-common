@@ -16,6 +16,6 @@ $(INSTALLED_RECOVERYIMAGE_TARGET): $(MKBOOTIMG) \
 	$(recovery_ramdisk) \
 	$(recovery_kernel)
 	@echo ----- Making recovery image ------
-	$(hide) python $(MKELF) -o $@ $(PRODUCT_OUT)/kernel@0x00200000 $(PRODUCT_OUT)/ramdisk-recovery.img@0x012000000,ramdisk  device/sony/montblanc-common/config/cmdline.txt@cmdline
+	$(hide) python $(MKELF) -o $@ $(PRODUCT_OUT)/kernel@0x00200000 $(PRODUCT_OUT)/ramdisk-recovery.img@0x012000000,ramdisk  $(BOARD_CMDLINE)@cmdline
 	@echo ----- Made recovery image -------- $@
 #	$(hide) $(call assert-max-image-size,$@,$(BOARD_RECOVERYIMAGE_PARTITION_SIZE),raw)
