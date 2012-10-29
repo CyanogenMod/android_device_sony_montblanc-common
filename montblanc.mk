@@ -43,20 +43,9 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
    lights.montblanc
 
-# Bluetooth
-PRODUCT_PACKAGES += \
-   STEBluetooth
-
 # Misc
 PRODUCT_PACKAGES += \
    com.android.future.usb.accessory
-
-# NFC
-#PRODUCT_PACKAGES += \
-#   libnfc \
-#   libnfc_jni \
-#   Nfc \
-#   Tag
 
 # We have enough storage space to hold precise GC data
 PRODUCT_TAGS += dalvik.gc.type-precise

@@ -175,9 +175,15 @@ static void set_shared_light_locked (struct light_device_t *dev, struct light_st
 		break;
 	}
 
-	write_int (RED_LED_FILE, r);
-	write_int (GREEN_LED_FILE, g);
-	write_int (BLUE_LED_FILE, b);
+	for (i = 0; i < sizeof(RED_LED_FILE)/sizeof(RED_LED_FILE[0]); i++) {
+		write_int (RED_LED_FILE[i], r);
+	}
+	for (i = 0; i < sizeof(GREEN_LED_FILE)/sizeof(GREEN_LED_FILE[0]); i++) {
+		write_int (GREEN_LED_FILE[i], g);
+	}
+	for (i = 0; i < sizeof(BLUE_LED_FILE)/sizeof(BLUE_LED_FILE[0]); i++) {
+		write_int (BLUE_LED_FILE[i], b);
+	}
 }
 
 static void handle_shared_battery_locked (struct light_device_t *dev) {
