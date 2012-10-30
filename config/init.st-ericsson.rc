@@ -272,6 +272,64 @@ on boot
     chmod 660 /sys/class/leds/so34-led0/brightness
     chmod 660 /sys/class/leds/so34-led1/brightness
     chmod 660 /sys/class/leds/so34-led2/brightness
+    chmod 666 /sys/class/leds/red/trigger
+    chmod 666 /sys/class/leds/green/trigger
+    chmod 666 /sys/class/leds/blue/trigger
+    chmod 666 /sys/class/leds/red/delay_on
+    chmod 666 /sys/class/leds/green/delay_on
+    chmod 666 /sys/class/leds/blue/delay_on
+    chmod 666 /sys/class/leds/red/delay_off
+    chmod 666 /sys/class/leds/green/delay_off
+    chmod 666 /sys/class/leds/blue/delay_off
+
+    chmod 666 /sys/class/leds/l-key-red/brightness
+    chmod 666 /sys/class/leds/m-key-red/brightness
+    chmod 666 /sys/class/leds/r-key-red/brightness
+    chmod 666 /sys/class/leds/pwr-red/brightness
+    chmod 666 /sys/class/leds/l-key-green/brightness
+    chmod 666 /sys/class/leds/m-key-green/brightness
+    chmod 666 /sys/class/leds/r-key-green/brightness
+    chmod 666 /sys/class/leds/pwr-green/brightness
+    chmod 666 /sys/class/leds/l-key-blue/brightness
+    chmod 666 /sys/class/leds/m-key-blue/brightness
+    chmod 666 /sys/class/leds/r-key-blue/brightness
+    chmod 666 /sys/class/leds/pwr-blue/brightness
+    chmod 666 /sys/class/leds/l-key-red/trigger
+    chmod 666 /sys/class/leds/m-key-red/trigger
+    chmod 666 /sys/class/leds/r-key-red/trigger
+    chmod 666 /sys/class/leds/pwr-red/trigger
+    chmod 666 /sys/class/leds/l-key-green/trigger
+    chmod 666 /sys/class/leds/m-key-green/trigger
+    chmod 666 /sys/class/leds/r-key-green/trigger
+    chmod 666 /sys/class/leds/pwr-green/trigger
+    chmod 666 /sys/class/leds/l-key-blue/trigger
+    chmod 666 /sys/class/leds/m-key-blue/trigger
+    chmod 666 /sys/class/leds/r-key-blue/trigger
+    chmod 666 /sys/class/leds/pwr-blue/trigger
+    chmod 666 /sys/class/leds/l-key-red/delay_on
+    chmod 666 /sys/class/leds/m-key-red/delay_on
+    chmod 666 /sys/class/leds/r-key-red/delay_on
+    chmod 666 /sys/class/leds/pwr-red/delay_on
+    chmod 666 /sys/class/leds/l-key-green/delay_on
+    chmod 666 /sys/class/leds/m-key-green/delay_on
+    chmod 666 /sys/class/leds/r-key-green/delay_on
+    chmod 666 /sys/class/leds/pwr-green/delay_on
+    chmod 666 /sys/class/leds/l-key-blue/delay_on
+    chmod 666 /sys/class/leds/m-key-blue/delay_on
+    chmod 666 /sys/class/leds/r-key-blue/delay_on
+    chmod 666 /sys/class/leds/pwr-blue/delay_on
+    chmod 666 /sys/class/leds/l-key-red/delay_off
+    chmod 666 /sys/class/leds/m-key-red/delay_off
+    chmod 666 /sys/class/leds/r-key-red/delay_off
+    chmod 666 /sys/class/leds/pwr-red/delay_off
+    chmod 666 /sys/class/leds/l-key-green/delay_off
+    chmod 666 /sys/class/leds/m-key-green/delay_off
+    chmod 666 /sys/class/leds/r-key-green/delay_off
+    chmod 666 /sys/class/leds/pwr-green/delay_off
+    chmod 666 /sys/class/leds/l-key-blue/delay_off
+    chmod 666 /sys/class/leds/m-key-blue/delay_off
+    chmod 666 /sys/class/leds/r-key-blue/delay_off
+    chmod 666 /sys/class/leds/pwr-blue/delay_off
 
     # Permissions for Libals.
     chown system system /sys/bus/i2c/devices/2-0040/als_on

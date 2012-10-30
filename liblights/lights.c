@@ -129,7 +129,7 @@ static int set_light_buttons (struct light_device_t *dev, struct light_state_t c
 }
 
 static void set_shared_light_locked (struct light_device_t *dev, struct light_state_t *state) {
-	int i, r, g, b;
+	int i, j, r, g, b;
 	int delayOn, delayOff;
 
         /* fix some color */
@@ -150,34 +150,34 @@ static void set_shared_light_locked (struct light_device_t *dev, struct light_st
 	switch (state->flashMode) {
 	case LIGHT_FLASH_TIMED:
 	case LIGHT_FLASH_HARDWARE:
-		write_string (RED_LED_FILE_TRIGGER, "timer");
-		write_string (GREEN_LED_FILE_TRIGGER, "timer");
-		write_string (BLUE_LED_FILE_TRIGGER, "timer");
+		for (i = 0; i < sizeof(RED_LED_FILE_TRIGGER)/sizeof(RED_LED_FILE_TRIGGER[0]); i++) {
+		write_string (RED_LED_FILE_TRIGGER[i], "timer");
+		write_string (GREEN_LED_FILE_TRIGGER[i], "timer");
+		write_string (BLUE_LED_FILE_TRIGGER[i], "timer");
 
-		write_int (RED_LED_FILE_DELAYON, delayOn);
-		write_int (GREEN_LED_FILE_DELAYON, delayOn);
-		write_int (BLUE_LED_FILE_DELAYON, delayOn);
+		write_int (RED_LED_FILE_DELAYON[i], delayOn);
+		write_int (GREEN_LED_FILE_DELAYON[i], delayOn);
+		write_int (BLUE_LED_FILE_DELAYON[i], delayOn);
 
-		write_int (RED_LED_FILE_DELAYOFF, delayOff);
-		write_int (GREEN_LED_FILE_DELAYOFF, delayOff);
-		write_int (BLUE_LED_FILE_DELAYOFF, delayOff);
+		write_int (RED_LED_FILE_DELAYOFF[i], delayOff);
+		write_int (GREEN_LED_FILE_DELAYOFF[i], delayOff);
+		write_int (BLUE_LED_FILE_DELAYOFF[i], delayOff);
+		}
 		break;
 
 	case LIGHT_FLASH_NONE:
-		write_string (RED_LED_FILE_TRIGGER, "none");
-		write_string (GREEN_LED_FILE_TRIGGER, "none");
-		write_string (BLUE_LED_FILE_TRIGGER, "none");
+		for (i = 0; i < sizeof(RED_LED_FILE_TRIGGER)/sizeof(RED_LED_FILE_TRIGGER[0]); i++) {
+		write_string (RED_LED_FILE_TRIGGER[i], "none");
+		write_string (GREEN_LED_FILE_TRIGGER[i], "none");
+		write_string (BLUE_LED_FILE_TRIGGER[i], "none");
+		}
 		break;
 	}
 
-	for (i = 0; i < sizeof(RED_LED_FILE)/sizeof(RED_LED_FILE[0]); i++) {
-		write_int (RED_LED_FILE[i], r);
-	}
-	for (i = 0; i < sizeof(GREEN_LED_FILE)/sizeof(GREEN_LED_FILE[0]); i++) {
-		write_int (GREEN_LED_FILE[i], g);
-	}
-	for (i = 0; i < sizeof(BLUE_LED_FILE)/sizeof(BLUE_LED_FILE[0]); i++) {
-		write_int (BLUE_LED_FILE[i], b);
+	for (j = 0; j < sizeof(RED_LED_FILE)/sizeof(RED_LED_FILE[0]); j++) {
+		write_int (RED_LED_FILE[j], r);
+		write_int (GREEN_LED_FILE[j], g);
+		write_int (BLUE_LED_FILE[j], b);
 	}
 }
 
