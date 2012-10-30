@@ -150,6 +150,7 @@ static void set_shared_light_locked (struct light_device_t *dev, struct light_st
 	switch (state->flashMode) {
 	case LIGHT_FLASH_TIMED:
 	case LIGHT_FLASH_HARDWARE:
+/*
 		for (i = 0; i < sizeof(RED_LED_FILE_TRIGGER)/sizeof(RED_LED_FILE_TRIGGER[0]); i++) {
 		write_string (RED_LED_FILE_TRIGGER[i], "timer");
 		write_string (GREEN_LED_FILE_TRIGGER[i], "timer");
@@ -163,15 +164,15 @@ static void set_shared_light_locked (struct light_device_t *dev, struct light_st
 		write_int (GREEN_LED_FILE_DELAYOFF[i], delayOff);
 		write_int (BLUE_LED_FILE_DELAYOFF[i], delayOff);
 		}
+*/
 		break;
-
 	case LIGHT_FLASH_NONE:
-		for (i = 0; i < sizeof(RED_LED_FILE_TRIGGER)/sizeof(RED_LED_FILE_TRIGGER[0]); i++) {
+/*		for (i = 0; i < sizeof(RED_LED_FILE_TRIGGER)/sizeof(RED_LED_FILE_TRIGGER[0]); i++) {
 		write_string (RED_LED_FILE_TRIGGER[i], "none");
 		write_string (GREEN_LED_FILE_TRIGGER[i], "none");
 		write_string (BLUE_LED_FILE_TRIGGER[i], "none");
 		}
-		break;
+*/		break;
 	}
 
 	for (j = 0; j < sizeof(RED_LED_FILE)/sizeof(RED_LED_FILE[0]); j++) {
