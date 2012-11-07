@@ -32,11 +32,6 @@
 #define WPA_PS_ENABLED   0
 #define WPA_PS_DISABLED  1
 
-#define BLUETOOTH_COEXISTENCE_MODE_ENABLED   0
-#define BLUETOOTH_COEXISTENCE_MODE_DISABLED  1
-#define BLUETOOTH_COEXISTENCE_MODE_SENSE     2
-
-
 static int g_drv_errors = 0;
 static int g_power_mode = 0;
 
@@ -128,21 +123,6 @@ nla_put_failure:
 	return ret;
 }
 
-static int wpa_driver_toggle_btcoex_state(char state)
-{
-	int ret;
-	int fd = open("/sys/devices/platform/wl1271/bt_coex_state", O_RDWR, 0);
-	if (fd == -1)
-		return -1;
-
-	ret = write(fd, &state, sizeof(state));
-	close(fd);
-
-	wpa_printf(MSG_DEBUG, "%s:  set btcoex state to '%c' result = %d", __func__,
-		   state, ret);
-	return ret;
-}
-
 static int wpa_driver_set_power_save(void *priv, int state)
 {
 	struct i802_bss *bss = priv;
@@ -203,16 +183,6 @@ int wpa_driver_nl80211_driver_cmd(void *priv, char *cmd, char *buf,
 		}
 	} else if (os_strncasecmp(cmd, "GETPOWER", 8) == 0) {
 		ret = os_snprintf(buf, buf_len, "POWERMODE = %d\n", g_power_mode);
-	} else if (os_strncasecmp(cmd, "BTCOEXMODE ", 11) == 0) {
-		int mode = atoi(cmd + 11);
-		if (mode == BLUETOOTH_COEXISTENCE_MODE_DISABLED) { /* disable BT-coex */
-			ret = wpa_driver_toggle_btcoex_state('0');
-		} else if (mode == BLUETOOTH_COEXISTENCE_MODE_SENSE) { /* enable BT-coex */
-			ret = wpa_driver_toggle_btcoex_state('1');
-		} else {
-			wpa_printf(MSG_DEBUG, "invalid btcoex mode: %d", mode);
-			ret = -1;
-		}
 	} else if ((os_strcasecmp(cmd, "RSSI") == 0) || (os_strcasecmp(cmd, "RSSI-APPROX") == 0)) {
 		struct wpa_signal_info sig;
 		int rssi;
