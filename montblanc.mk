@@ -31,6 +31,7 @@ PRODUCT_COPY_FILES += \
     device/sony/montblanc-common/config/asound.conf:system/etc/asound.conf \
     device/sony/montblanc-common/config/dbus.conf:system/etc/dbus.conf \
     device/sony/montblanc-common/config/sysmon.cfg:system/etc/sysmon.cfg \
+    device/sony/montblanc-common/config/hostapd.conf:system/etc/wifi/hostapd.conf \
     device/sony/montblanc-common/config/01stesetup:system/etc/init.d/01stesetup \
     device/sony/montblanc-common/config/wpa_supplicant.conf:system/etc/wifi/wpa_supplicant.conf
 
@@ -38,6 +39,15 @@ PRODUCT_COPY_FILES += \
 PRODUCT_PACKAGES += \
     make_ext4fs \
     setup_fs
+
+# Hostapd
+PRODUCT_PACKAGES += \
+    hostapd_cli \
+    hostapd
+
+# light package
+PRODUCT_PACKAGES += \
+   audio.a2dp.default
 
 # light package
 PRODUCT_PACKAGES += \
