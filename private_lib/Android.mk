@@ -42,7 +42,7 @@ L_CFLAGS += -DCONFIG_WPS
 endif
 
 ifdef CONFIG_DRIVER_NL80211
-L_SRC += driver_cmd_nl80211.c
+L_SRC += driver_nl80211.c
 endif
 
 INCLUDES = $(WPA_SUPPL_DIR) \
