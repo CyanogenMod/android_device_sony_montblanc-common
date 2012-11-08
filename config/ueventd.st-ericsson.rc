@@ -1,3 +1,11 @@
+#Lights
+/sys/devices/platform/nmk-i2c.2/i2c-2/2-0036/leds/lcd-backlight als_enable 0600 system system
+/sys/devices/platform/nmk-i2c.2/i2c-2/2-0036/leds/* delay_on 0660 system system
+/sys/devices/platform/nmk-i2c.2/i2c-2/2-0036/leds/* delay_off 0660 system system
+/sys/devices/platform/nmk-i2c.2/i2c-2/2-0036/leds/* brightness 0660 system system
+/sys/devices/platform/nmk-i2c.2/i2c-2/2-0036/leds/* trigger 0600 system system
+/sys/devices/platform/nmk-i2c.2/i2c-2/2-002c/leds/* brightness 0660 system system
+
 # NMF CM devices
 /dev/cm_channel           0660   media      system
 /dev/cm_control           0660   media      system

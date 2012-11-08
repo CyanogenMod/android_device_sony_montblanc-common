@@ -120,10 +120,6 @@ on post-fs
     chmod 0644 /modemfs/PERM/PROT/LABEP.CFG
     chown radio radio /modemfs/PERM/PROT/PPVALUES.DAT
     chmod 0644 /modemfs/PERM/PROT/PPVALUES.DAT
-    touch /modemfs/PERM/PROT/MOM.CFG
-    touch /modemfs/PERM/PROT/F2ND.DAT
-    touch /modemfs/PERM/PROT/FXSTAT.X
-    touch /modemfs/CONF/HALTRACE.CFG
 
     # STE: Set permissions for wake locks before services are launched that use them
     chown radio system /sys/power/state
@@ -241,102 +237,6 @@ on boot
     setprop bt.hfp.wideband 1
 
     class_start bootstage1
-
-    # Permissions for Liblights.
-    chown system system /sys/class/leds/lcd-backlight/brightness
-    chown system system /sys/class/leds/lcd-backlight/als_enable
-    chown system system /sys/class/leds/button-backlight/brightness
-    chown system system /sys/class/leds/keyboard-backlight/brightness
-    chown system system /sys/class/leds/red/brightness
-    chown system system /sys/class/leds/red/use_pattern
-    chown system system /sys/class/leds/green/brightness
-    chown system system /sys/class/leds/green/use_pattern
-    chown system system /sys/class/leds/blue/brightness
-    chown system system /sys/class/leds/blue/use_pattern
-    chown system system /sys/class/leds/so34-led0/brightness
-    chown system system /sys/class/leds/so34-led1/brightness
-    chown system system /sys/class/leds/so34-led2/brightness
-    chown system system /sys/bus/i2c/drivers/as3677/2-0040/pattern_data
-    chown system system /sys/bus/i2c/drivers/as3677/2-0040/pattern_delay
-    chown system system /sys/bus/i2c/drivers/as3677/2-0040/pattern_duration_secs
-    chmod 660 /sys/class/leds/lcd-backlight/brightness
-    chmod 660 /sys/class/leds/lcd-backlight/device/als_enable
-    chmod 660 /sys/class/leds/button-backlight/brightness
-    chmod 660 /sys/class/leds/keyboard-backlight/brightness
-    chmod 660 /sys/class/leds/red/brightness
-    chmod 660 /sys/class/leds/red/use_pattern
-    chmod 660 /sys/class/leds/green/brightness
-    chmod 660 /sys/class/leds/green/use_pattern
-    chmod 660 /sys/class/leds/blue/brightness
-    chmod 660 /sys/class/leds/blue/use_pattern
-    chmod 660 /sys/class/leds/so34-led0/brightness
-    chmod 660 /sys/class/leds/so34-led1/brightness
-    chmod 660 /sys/class/leds/so34-led2/brightness
-    chmod 666 /sys/class/leds/red/trigger
-    chmod 666 /sys/class/leds/green/trigger
-    chmod 666 /sys/class/leds/blue/trigger
-    chmod 666 /sys/class/leds/red/delay_on
-    chmod 666 /sys/class/leds/green/delay_on
-    chmod 666 /sys/class/leds/blue/delay_on
-    chmod 666 /sys/class/leds/red/delay_off
-    chmod 666 /sys/class/leds/green/delay_off
-    chmod 666 /sys/class/leds/blue/delay_off
-
-    chmod 666 /sys/class/leds/l-key-red/brightness
-    chmod 666 /sys/class/leds/m-key-red/brightness
-    chmod 666 /sys/class/leds/r-key-red/brightness
-    chmod 666 /sys/class/leds/pwr-red/brightness
-    chmod 666 /sys/class/leds/l-key-green/brightness
-    chmod 666 /sys/class/leds/m-key-green/brightness
-    chmod 666 /sys/class/leds/r-key-green/brightness
-    chmod 666 /sys/class/leds/pwr-green/brightness
-    chmod 666 /sys/class/leds/l-key-blue/brightness
-    chmod 666 /sys/class/leds/m-key-blue/brightness
-    chmod 666 /sys/class/leds/r-key-blue/brightness
-    chmod 666 /sys/class/leds/pwr-blue/brightness
-    chmod 666 /sys/class/leds/l-key-red/trigger
-    chmod 666 /sys/class/leds/m-key-red/trigger
-    chmod 666 /sys/class/leds/r-key-red/trigger
-    chmod 666 /sys/class/leds/pwr-red/trigger
-    chmod 666 /sys/class/leds/l-key-green/trigger
-    chmod 666 /sys/class/leds/m-key-green/trigger
-    chmod 666 /sys/class/leds/r-key-green/trigger
-    chmod 666 /sys/class/leds/pwr-green/trigger
-    chmod 666 /sys/class/leds/l-key-blue/trigger
-    chmod 666 /sys/class/leds/m-key-blue/trigger
-    chmod 666 /sys/class/leds/r-key-blue/trigger
-    chmod 666 /sys/class/leds/pwr-blue/trigger
-    chmod 666 /sys/class/leds/l-key-red/delay_on
-    chmod 666 /sys/class/leds/m-key-red/delay_on
-    chmod 666 /sys/class/leds/r-key-red/delay_on
-    chmod 666 /sys/class/leds/pwr-red/delay_on
-    chmod 666 /sys/class/leds/l-key-green/delay_on
-    chmod 666 /sys/class/leds/m-key-green/delay_on
-    chmod 666 /sys/class/leds/r-key-green/delay_on
-    chmod 666 /sys/class/leds/pwr-green/delay_on
-    chmod 666 /sys/class/leds/l-key-blue/delay_on
-    chmod 666 /sys/class/leds/m-key-blue/delay_on
-    chmod 666 /sys/class/leds/r-key-blue/delay_on
-    chmod 666 /sys/class/leds/pwr-blue/delay_on
-    chmod 666 /sys/class/leds/l-key-red/delay_off
-    chmod 666 /sys/class/leds/m-key-red/delay_off
-    chmod 666 /sys/class/leds/r-key-red/delay_off
-    chmod 666 /sys/class/leds/pwr-red/delay_off
-    chmod 666 /sys/class/leds/l-key-green/delay_off
-    chmod 666 /sys/class/leds/m-key-green/delay_off
-    chmod 666 /sys/class/leds/r-key-green/delay_off
-    chmod 666 /sys/class/leds/pwr-green/delay_off
-    chmod 666 /sys/class/leds/l-key-blue/delay_off
-    chmod 666 /sys/class/leds/m-key-blue/delay_off
-    chmod 666 /sys/class/leds/r-key-blue/delay_off
-    chmod 666 /sys/class/leds/pwr-blue/delay_off
-
-    # Permissions for Libals.
-    chown system system /sys/bus/i2c/devices/2-0040/als_on
-    chmod 666 /sys/bus/i2c/devices/2-0040/als_on
-    chmod 666 /sys/bus/i2c/devices/2-0036/als_enable
-    chmod 666 /sys/bus/i2c/devices/2-0036/als_result
-    chmod 666 /sys/bus/i2c/devices/2-0037/als
 
     # Permissions for accelerometer and magnetometer.
     chown system system /sys/bus/i2c/devices/2-0018/pollrate_ms
