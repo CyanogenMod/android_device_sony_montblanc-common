@@ -40,9 +40,13 @@ char const*const BLUE_LED_FILE_DELAYOFF[] = {
 };
 
 char const*const BUTTON_BACKLIGHT_FILE[] = {
+#ifdef BUTTON_BACKLIGHT
+  "/sys/class/leds/button-backlight/brightness",
+#else
   "/sys/class/leds/so34-led0/brightness",
   "/sys/class/leds/so34-led1/brightness",
   "/sys/class/leds/so34-led2/brightness",
+#endif
 };
 
 #else
