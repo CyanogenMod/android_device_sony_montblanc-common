@@ -129,7 +129,7 @@ static int set_light_buttons (struct light_device_t *dev, struct light_state_t c
 }
 
 static void set_shared_light_locked (struct light_device_t *dev, struct light_state_t *state) {
-	int i, j, r, g, b;
+	int i, r, g, b;
 	int delayOn, delayOff;
 
 	r = (state->color >> 16) & 0xFF;
@@ -142,6 +142,7 @@ static void set_shared_light_locked (struct light_device_t *dev, struct light_st
 	switch (state->flashMode) {
 	case LIGHT_FLASH_TIMED:
 	case LIGHT_FLASH_HARDWARE:
+#ifndef NO_BLINK
 		for (i = 0; i < sizeof(RED_LED_FILE_TRIGGER)/sizeof(RED_LED_FILE_TRIGGER[0]); i++) {
 		write_string (RED_LED_FILE_TRIGGER[i], "timer");
 		write_int (RED_LED_FILE_DELAYON[i], delayOn);
@@ -153,20 +154,23 @@ static void set_shared_light_locked (struct light_device_t *dev, struct light_st
 		write_int (BLUE_LED_FILE_DELAYON[i], delayOn);
 		write_int (BLUE_LED_FILE_DELAYOFF[i], delayOff);
 		}
+#endif
 		break;
 	case LIGHT_FLASH_NONE:
+#ifndef NO_BLINK
 		for (i = 0; i < sizeof(RED_LED_FILE_TRIGGER)/sizeof(RED_LED_FILE_TRIGGER[0]); i++) {
 		write_string (RED_LED_FILE_TRIGGER[i], "none");
 		write_string (GREEN_LED_FILE_TRIGGER[i], "none");
 		write_string (BLUE_LED_FILE_TRIGGER[i], "none");
 		}
+#endif
 		break;
 	}
 
-	for (j = 0; j < sizeof(RED_LED_FILE)/sizeof(RED_LED_FILE[0]); j++) {
-		write_int (RED_LED_FILE[j], r);
-		write_int (GREEN_LED_FILE[j], g);
-		write_int (BLUE_LED_FILE[j], b);
+	for (i = 0; i < sizeof(RED_LED_FILE)/sizeof(RED_LED_FILE[0]); i++) {
+		write_int (RED_LED_FILE[i], r);
+		write_int (GREEN_LED_FILE[i], g);
+		write_int (BLUE_LED_FILE[i], b);
 	}
 }
 
