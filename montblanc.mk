@@ -2,6 +2,8 @@ $(call inherit-product, $(SRC_TARGET_DIR)/product/languages_full.mk)
 
 $(call inherit-product, device/sony/montblanc-common/recovery/recovery.mk)
 
+$(call inherit-product-if-exists, vendor/sony/montblanc-common/montblanc-vendor-blobs.mk)
+
 DEVICE_PACKAGE_OVERLAYS += device/sony/montblanc-common/overlay
 
 # Permissions
