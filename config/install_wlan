@@ -1,21 +1,24 @@
 #!/system/bin/sh
 
 MAC_FILE=/data/etc/wlan_macaddr
-COMMAND="/system/bin/insmod"
+COMMAND1="/system/bin/insmod"
+COMMAND2="/system/bin/iw"
 MOD_PATH="/system/lib/modules"
 MOD_CORE="cw1200_core.ko"
 MOD_WLAN="cw1200_wlan.ko"
 ARG="macaddr="
+PARAM="phy phy0 wowlan enable any"
 
 if ( /system/bin/ls $MAC_FILE > /dev/null ); then
      ADDR=`/system/bin/cat $MAC_FILE`
-     echo $COMMAND $MOD_PATH/$MOD_CORE $ARG$ADDR
-     $COMMAND $MOD_PATH/$MOD_CORE $ARG$ADDR
+     echo $COMMAND1 $MOD_PATH/$MOD_CORE $ARG$ADDR
+     $COMMAND1 $MOD_PATH/$MOD_CORE $ARG$ADDR
 
 else
-     echo $COMMAND $MOD_PATH/$MOD_CORE
-     $COMMAND $MOD_PATH/$MOD_CORE
+     echo $COMMAND1 $MOD_PATH/$MOD_CORE
+     $COMMAND1 $MOD_PATH/$MOD_CORE
 fi
 
-echo $COMMAND $MOD_PATH/$MOD_WLAN
-$COMMAND $MOD_PATH/$MOD_WLAN
+echo $COMMAND1 $MOD_PATH/$MOD_WLAN
+$COMMAND1 $MOD_PATH/$MOD_WLAN
+$COMMAND2 $PARAM
