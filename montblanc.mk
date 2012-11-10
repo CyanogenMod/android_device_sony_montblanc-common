@@ -47,9 +47,10 @@ PRODUCT_PACKAGES += \
     hostapd_cli \
     hostapd
 
-# light package
+# BT A2DP
 PRODUCT_PACKAGES += \
-   audio.a2dp.default
+    libasound_module_ctl_bluetooth \
+    libasound_module_pcm_bluetooth
 
 # light package
 PRODUCT_PACKAGES += \
