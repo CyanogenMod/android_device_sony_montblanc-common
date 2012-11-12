@@ -24,17 +24,17 @@ on init
 
     # setup the global environment
     export EXTERNAL_STORAGE /mnt/sdcard
-    export SECONDARY_STORAGE /mnt/ext_card
+    export SECONDARY_STORAGE /mnt/external_sd
     export EXTERNAL_STORAGE_USB /mnt/usbdisk
 
     # create symlink
     # Create mountpoint for USB disk
-    mkdir /mnt/ext_card 0000 system system
+    mkdir /mnt/external_sd 0000 system system
     mkdir /mnt/usbdisk 0000 system system
 
     # Create symlink
     symlink /mnt/sdcard /sdcard
-    symlink /mnt/ext_card /ext_card
+    symlink /mnt/external_sd /external_sd
     symlink /mnt/usbdisk /usbdisk
 
     # make files in /sys/ non-writable for OTHERS
