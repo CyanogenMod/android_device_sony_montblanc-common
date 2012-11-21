@@ -136,32 +136,36 @@ static void set_shared_light_locked (struct light_device_t *dev, struct light_st
 	g = (state->color >> 8) & 0xFF;
 	b = (state->color) & 0xFF;
 
-	delayOn = state->flashOnMS;
-	delayOff = state->flashOffMS;
+	delayOn = state->flashOnMS*1000;
+	delayOff = state->flashOffMS*1000;
 
 	switch (state->flashMode) {
 	case LIGHT_FLASH_TIMED:
 	case LIGHT_FLASH_HARDWARE:
-#ifndef NO_BLINK
-		for (i = 0; i < sizeof(RED_LED_FILE_TRIGGER)/sizeof(RED_LED_FILE_TRIGGER[0]); i++) {
-		write_string (RED_LED_FILE_TRIGGER[i], "timer");
-		write_int (RED_LED_FILE_DELAYON[i], delayOn);
-		write_int (RED_LED_FILE_DELAYOFF[i], delayOff);
-		write_string (GREEN_LED_FILE_TRIGGER[i], "timer");
-		write_int (GREEN_LED_FILE_DELAYON[i], delayOn);
-		write_int (GREEN_LED_FILE_DELAYOFF[i], delayOff);
-		write_string (BLUE_LED_FILE_TRIGGER[i], "timer");
-		write_int (BLUE_LED_FILE_DELAYON[i], delayOn);
-		write_int (BLUE_LED_FILE_DELAYOFF[i], delayOff);
+#ifndef NEW_NOTIFICATION
+		for (i = 0; i < sizeof(LED_FILE_TRIGGER)/sizeof(LED_FILE_TRIGGER[0]); i++) {
+		write_string (LED_FILE_TRIGGER[i], "timer");
+		write_int (LED_FILE_DELAYON[i], delayOn);
+		write_int (LED_FILE_DELAYOFF[i], delayOff);
+		}
+#else
+		write_string (LED_FILE_PATTERN, "0x00000001");
+		write_string (LED_FILE_DELAYON, "1");
+		write_string (LED_FILE_DELAYOFF, "1");
+
+		for (i = 0; i < sizeof(LED_FILE_TRIGGER)/sizeof(LED_FILE_TRIGGER[0]); i++) {
+		write_string (LED_FILE_TRIGGER[i], "1");
 		}
 #endif
 		break;
 	case LIGHT_FLASH_NONE:
-#ifndef NO_BLINK
-		for (i = 0; i < sizeof(RED_LED_FILE_TRIGGER)/sizeof(RED_LED_FILE_TRIGGER[0]); i++) {
-		write_string (RED_LED_FILE_TRIGGER[i], "none");
-		write_string (GREEN_LED_FILE_TRIGGER[i], "none");
-		write_string (BLUE_LED_FILE_TRIGGER[i], "none");
+#ifndef NEW_NOTIFICATION
+		for (i = 0; i < sizeof(LED_FILE_TRIGGER)/sizeof(LED_FILE_TRIGGER[0]); i++) {
+		write_string (LED_FILE_TRIGGER[i], "none");
+		}
+#else
+		for (i = 0; i < sizeof(LED_FILE_TRIGGER)/sizeof(LED_FILE_TRIGGER[0]); i++) {
+		write_string (LED_FILE_TRIGGER[i], "0");
 		}
 #endif
 		break;
