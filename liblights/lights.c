@@ -31,6 +31,7 @@
 
 #include <hardware/lights.h>
 #include "lights.h"
+#include "lights-device.h"
 
 /* Synchronization primities */
 static pthread_once_t g_init = PTHREAD_ONCE_INIT;
@@ -136,38 +137,30 @@ static void set_shared_light_locked (struct light_device_t *dev, struct light_st
 	g = (state->color >> 8) & 0xFF;
 	b = (state->color) & 0xFF;
 
-	delayOn = state->flashOnMS*1000;
-	delayOff = state->flashOffMS*1000;
+	delayOn = state->flashOnMS;
+	delayOff = state->flashOffMS;
 
 	switch (state->flashMode) {
 	case LIGHT_FLASH_TIMED:
 	case LIGHT_FLASH_HARDWARE:
+		for (i = 0; i < sizeof(LED_FILE_TRIGGER)/sizeof(LED_FILE_TRIGGER[0]); i++) {
+		write_string (LED_FILE_TRIGGER[i], ON);
+		}
 #ifndef NEW_NOTIFICATION
 		for (i = 0; i < sizeof(LED_FILE_TRIGGER)/sizeof(LED_FILE_TRIGGER[0]); i++) {
-		write_string (LED_FILE_TRIGGER[i], "timer");
 		write_int (LED_FILE_DELAYON[i], delayOn);
 		write_int (LED_FILE_DELAYOFF[i], delayOff);
 		}
 #else
-		write_string (LED_FILE_PATTERN, "0x00000001");
+		write_string (LED_FILE_PATTERN, PATTERN);
 		write_string (LED_FILE_DELAYON, "1");
-		write_string (LED_FILE_DELAYOFF, "1");
-
-		for (i = 0; i < sizeof(LED_FILE_TRIGGER)/sizeof(LED_FILE_TRIGGER[0]); i++) {
-		write_string (LED_FILE_TRIGGER[i], "1");
-		}
+		write_string (LED_FILE_DELAYOFF, DELAYOFF);
 #endif
 		break;
 	case LIGHT_FLASH_NONE:
-#ifndef NEW_NOTIFICATION
 		for (i = 0; i < sizeof(LED_FILE_TRIGGER)/sizeof(LED_FILE_TRIGGER[0]); i++) {
-		write_string (LED_FILE_TRIGGER[i], "none");
+		write_string (LED_FILE_TRIGGER[i], OFF);
 		}
-#else
-		for (i = 0; i < sizeof(LED_FILE_TRIGGER)/sizeof(LED_FILE_TRIGGER[0]); i++) {
-		write_string (LED_FILE_TRIGGER[i], "0");
-		}
-#endif
 		break;
 	}
 
