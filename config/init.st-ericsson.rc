@@ -277,6 +277,9 @@ on boot
     chown system system /sys/devices/platform/nmk-i2c.2/i2c-2/2-0040/leds/pwr-green/use_pattern
     chown system system /sys/devices/platform/nmk-i2c.2/i2c-2/2-0040/leds/pwr-blue/use_pattern
 
+    chmod 666 /sys/devices/av8100_hdmi.3/disponoff
+    chmod 666 /sys/devices/av8100_hdmi.3/hdmisdtvswitch
+
     # SEMC: USB Host support
     mkdir /dev/bus/ 0711 system system
     mkdir /dev/bus/usb 0711 system system
