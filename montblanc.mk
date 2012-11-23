@@ -86,5 +86,5 @@ PRODUCT_COPY_FILES += \
     device/sony/montblanc-common/config/ste_modem.sh:system/etc/ste_modem.sh
 
 PRODUCT_PROPERTY_OVERRIDES += \
-    persist.sys.usb.config=mass_storage,adb \
+    persist.sys.usb.config=mtp \
     wifi.interface=wlan0
