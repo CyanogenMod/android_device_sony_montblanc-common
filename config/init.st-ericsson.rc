@@ -37,32 +37,6 @@ on init
     symlink /mnt/external_sd /external_sd
     symlink /mnt/usbdisk /usbdisk
 
-    # make files in /sys/ non-writable for OTHERS
-    chmod 220 /sys/ab8500_chargalg/chargalg
-    chown system system /sys/ab8500_chargalg/chargalg
-    chmod 664 /sys/devices/sensor00/fn54/fifoindexhi
-    chmod 664 /sys/devices/sensor00/fn54/fifoindexlo
-    chmod 664 /sys/devices/sensor00/fn54/control
-    chmod 664 /sys/devices/sensor00/fn54/cmd
-    chmod 664 /sys/devices/sensor00/fn54/reporttype
-    chmod 220 /sys/devices/sensor00/fn34/rescanPDT
-    chmod 664 /sys/devices/sensor00/fn34/blocknum
-    chmod 664 /sys/devices/sensor00/fn34/cmd
-    chmod 664 /sys/devices/sensor00/fn34/bootloaderid
-    chmod 664 /sys/devices/sensor00/fn34/data
-    chmod 664 /sys/devices/sensor00/fn11/relreport
-    chmod 664 /sys/devices/sensor00/fn11/swap
-    chmod 664 /sys/devices/sensor00/fn11/offset
-    chmod 664 /sys/devices/sensor00/fn11/clip
-    chmod 664 /sys/devices/sensor00/fn11/flip
-    chmod 220 /sys/devices/sensor00/fn01/reset
-    chmod 664 /sys/devices/sensor00/fn01/reportrate
-    chmod 664 /sys/devices/sensor00/fn01/nosleep
-    chmod 664 /sys/devices/sensor00/fn01/chargerinput
-    chmod 664 /sys/devices/sensor00/fn01/sleepmode
-    chmod 664 /sys/devices/sensor00/enabled
-    chmod 664 /sys/devices/sensor00/bsr
-
     # chown for sim detect
     chown root radio /sys/class/sim_card/sim_status
     #permissions for rfkill
@@ -302,6 +276,9 @@ on boot
     chown system system /sys/devices/platform/nmk-i2c.2/i2c-2/2-0040/leds/pwr-red/use_pattern
     chown system system /sys/devices/platform/nmk-i2c.2/i2c-2/2-0040/leds/pwr-green/use_pattern
     chown system system /sys/devices/platform/nmk-i2c.2/i2c-2/2-0040/leds/pwr-blue/use_pattern
+
+    chmod 666 /sys/devices/av8100_hdmi.3/disponoff
+    chmod 666 /sys/devices/av8100_hdmi.3/hdmisdtvswitch
 
     # SEMC: USB Host support
     mkdir /dev/bus/ 0711 system system
@@ -545,23 +522,3 @@ service batcap /system/bin/batcap
     user root
     oneshot
 
-# Start suntrold
-#service suntrold /system/bin/suntrold
-#    user system
-#    group system
-#    oneshot
-
-# SEMC System monitor
-#service system_monitor /system/bin/system_monitor
-#    user root
-
-#service illumination /system/bin/illumination_service
-#    class main
-#    user root
-
-#service pand /system/bin/pand -s -n -M -A -E -r NAP -u /system/bin/blue-up.sh
-#    class main
-#    user root
-#    group bluetooth net_bt_admin misc
-#    disabled
-#    oneshot
