@@ -7,6 +7,7 @@ BOARD_HAS_NO_MISC_PARTITION := true
 # Platform
 TARGET_BOARD_PLATFORM := montblanc
 TARGET_BOOTLOADER_BOARD_NAME := montblanc
+BOARD_USES_STE_HARDWARE := true
 
 # Architecture
 TARGET_CPU_ABI := armeabi-v7a
