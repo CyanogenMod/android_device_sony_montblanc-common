@@ -17,7 +17,6 @@
 #ifndef ANDROID_COPYBIT_INTERFACE_H
 #define ANDROID_COPYBIT_INTERFACE_H
 
-#ifdef TARGET_BOARD_SNOWBALL
 #include <hardware/hardware.h>
 
 #include <stdint.h>
@@ -254,5 +253,4 @@ static inline int copybit_close(struct copybit_device_t* device) {
 
 __END_DECLS
 
-#endif
 #endif  // ANDROID_COPYBIT_INTERFACE_H
