@@ -71,7 +71,7 @@ typedef enum {
     AUDIO_SOURCE_FM_RX_A2DP          = 9,
 #endif
 #ifdef STE_FM
-    AUDIO_SOURCE_FM_RADIO_RX         = 9,
+    AUDIO_SOURCE_FM_RADIO_RX         = 8,
 #endif
     AUDIO_SOURCE_CNT,
     AUDIO_SOURCE_MAX                 = AUDIO_SOURCE_CNT - 1,
@@ -370,7 +370,7 @@ typedef enum {
     AUDIO_DEVICE_IN_VOICE_CALL            = 0x400000,
     AUDIO_DEVICE_IN_BACK_MIC              = 0x800000,
 #ifdef STE_FM
-    AUDIO_DEVICE_IN_FM_RX                 = 0x20000000,
+    AUDIO_DEVICE_IN_FM_RX                 = 0x1000000,
 #endif
 #endif
     AUDIO_DEVICE_IN_DEFAULT               = 0x80000000,
