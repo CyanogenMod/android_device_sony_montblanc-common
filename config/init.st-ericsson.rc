@@ -284,10 +284,6 @@ on boot
     mkdir /dev/bus/ 0711 system system
     mkdir /dev/bus/usb 0711 system system
 
-    # SEMC: Include IO wait time into CPU usage calculation to increase IO performance
-    write /sys/devices/system/cpu/cpufreq/ondemand/io_is_busy 1
-    write /proc/sys/kernel/sysrq 0
-
     # SEMC: Enable Wifi EAP SIM
     setprop ro.wifi.eap_sim_enabled true
 
@@ -308,6 +304,20 @@ on boot
 
     #Load wifi modules and MAC setup
     exec /system/bin/install_wlan
+
+    # power-management
+    write /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor ondemand
+    write /sys/devices/system/cpu/cpu1/cpufreq/scaling_governor ondemand
+    write /sys/devices/system/cpu/cpufreq/ondemand/sampling_rate 50000
+    write /sys/devices/system/cpu/cpufreq/ondemand/up_threshold 90
+    write /sys/devices/system/cpu/cpufreq/ondemand/io_is_busy 1
+    write /sys/devices/system/cpu/cpufreq/ondemand/sampling_down_factor 4
+    write /sys/devices/system/cpu/cpufreq/ondemand/down_differential 10
+    write /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq 200000
+    write /sys/devices/system/cpu/cpu1/cpufreq/scaling_min_freq 200000
+
+    # SEMC: Include IO wait time into CPU usage calculation to increase IO performance
+    write /proc/sys/kernel/sysrq 0
 
 # Crash Safe Parameter Storage Area, serving production parameter requests from clients.
 # Configuration is read from file "/etc/cspsa.conf" and each found area spawns a CSPSA server
