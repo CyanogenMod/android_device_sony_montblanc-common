@@ -241,6 +241,7 @@ on boot
     chown system system /sys/bus/i2c/devices/2-0054/cycle
     chown system system /sys/bus/i2c/devices/2-0054/filter
 
+
     # Permissions for LM356x flash LED
     chown system system /sys/bus/i2c/devices/2-0053/torch_enable
     chown system system /sys/bus/i2c/devices/2-0053/torch_current
@@ -261,6 +262,8 @@ on boot
     chown system system /sys/bus/i2c/devices/2-0053/privacy_enable
     chown system system /sys/bus/i2c/devices/2-0053/privacy_current
 
+    chown system system /sys/devices/platform/nmk-i2c.2/i2c-2/2-0040/als_on
+    chown system system /sys/devices/platform/nmk-i2c.2/i2c-2/2-0040/als_result
     chown system system /sys/devices/platform/nmk-i2c.2/i2c-2/2-0040/pattern_data
     chown system system /sys/devices/platform/nmk-i2c.2/i2c-2/2-0040/pattern_delay
     chown system system /sys/devices/platform/nmk-i2c.2/i2c-2/2-0040/pattern_duration_secs
