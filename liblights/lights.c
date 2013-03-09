@@ -209,11 +209,17 @@ static void set_shared_light_locked (struct light_device_t *dev, struct light_st
 		break;
 	}
 
-	for (i = 0; i < sizeof(RED_LED_FILE)/sizeof(RED_LED_FILE[0]); i++) {
-		write_int (RED_LED_FILE[i], r);
-		write_int (GREEN_LED_FILE[i], g);
-		write_int (BLUE_LED_FILE[i], b);
-	}
+	write_int (RED_LED_FILE, r);
+	write_int (GREEN_LED_FILE, g);
+	write_int (BLUE_LED_FILE, b);
+#ifdef SECOND_NOTIFICATION
+	if (state->flashOnMS > 1)
+		for (i = 0; i < sizeof(RED2_LED_FILE)/sizeof(RED2_LED_FILE[0]); i++) {
+		write_int (RED2_LED_FILE[i], r);
+		write_int (GREEN2_LED_FILE[i], g);
+		write_int (BLUE2_LED_FILE[i], b);
+		}
+#endif
 }
 
 static void handle_shared_battery_locked (struct light_device_t *dev) {
