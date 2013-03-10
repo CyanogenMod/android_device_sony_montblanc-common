@@ -130,7 +130,7 @@ static int set_light_buttons (struct light_device_t *dev, struct light_state_t c
 }
 
 static void set_shared_light_locked (struct light_device_t *dev, struct light_state_t *state) {
-	int i, r, g, b;
+	int i, r, g, b, r2, g2, b2;
 #ifndef NEW_NOTIFICATION
 	int delayOn, delayOff;
 #else
@@ -180,6 +180,7 @@ static void set_shared_light_locked (struct light_device_t *dev, struct light_st
 	}
 #endif
 
+	if (state->flashOnMS > 1)
 	switch (state->flashMode) {
 	case LIGHT_FLASH_TIMED:
 	case LIGHT_FLASH_HARDWARE:
@@ -198,6 +199,11 @@ static void set_shared_light_locked (struct light_device_t *dev, struct light_st
 		write_int (LED_FILE_DELAYOFF, 8);
 		write_int (LED_FILE_DELAYON, 0);
 #endif
+#ifdef SECOND_NOTIFICATION
+		r2 = r;
+		g2 = g;
+		b2 = b;
+#endif
 		break;
 	case LIGHT_FLASH_NONE:
 		for (i = 0; i < sizeof(LED_FILE_TRIGGER)/sizeof(LED_FILE_TRIGGER[0]); i++) {
@@ -208,17 +214,20 @@ static void set_shared_light_locked (struct light_device_t *dev, struct light_st
 #endif
 		break;
 	}
-
+	else {
+	r2 = 0;
+	g2 = 0;
+	b2 = 0;
+	}
 	write_int (RED_LED_FILE, r);
 	write_int (GREEN_LED_FILE, g);
 	write_int (BLUE_LED_FILE, b);
 #ifdef SECOND_NOTIFICATION
-	if (state->flashOnMS > 1)
-		for (i = 0; i < sizeof(RED2_LED_FILE)/sizeof(RED2_LED_FILE[0]); i++) {
-		write_int (RED2_LED_FILE[i], r);
-		write_int (GREEN2_LED_FILE[i], g);
-		write_int (BLUE2_LED_FILE[i], b);
-		}
+	for (i = 0; i < sizeof(RED2_LED_FILE)/sizeof(RED2_LED_FILE[0]); i++) {
+	write_int (RED2_LED_FILE[i], r2);
+	write_int (GREEN2_LED_FILE[i], g2);
+	write_int (BLUE2_LED_FILE[i], b2);
+	}
 #endif
 }
 
