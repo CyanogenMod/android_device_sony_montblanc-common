@@ -241,6 +241,9 @@ on boot
     chown system system /sys/bus/i2c/devices/2-0054/cycle
     chown system system /sys/bus/i2c/devices/2-0054/filter
 
+    # Permissions for LM3533 Light Sensor
+    chown system system /sys/devices/platform/nmk-i2c.2/i2c-2/2-0036/als_enable
+    chown system system /sys/devices/platform/nmk-i2c.2/i2c-2/2-0040/als_result
 
     # Permissions for LM356x flash LED
     chown system system /sys/bus/i2c/devices/2-0053/torch_enable
