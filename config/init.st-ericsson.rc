@@ -232,6 +232,10 @@ on boot
     chown system system /sys/bus/i2c/devices/2-0054/cycle
     chown system system /sys/bus/i2c/devices/2-0054/filter
 
+    # Permissions for LM3533 Light Sensor
+    chown system system /sys/devices/platform/nmk-i2c.2/i2c-2/2-0036/als_enable
+    chown system system /sys/devices/platform/nmk-i2c.2/i2c-2/2-0040/als_result
+
     # Permissions for LM356x flash LED
     chown system system /sys/bus/i2c/devices/2-0053/torch_enable
     chown system system /sys/bus/i2c/devices/2-0053/torch_current
@@ -252,9 +256,13 @@ on boot
     chown system system /sys/bus/i2c/devices/2-0053/privacy_enable
     chown system system /sys/bus/i2c/devices/2-0053/privacy_current
 
+    chown system system /sys/devices/platform/nmk-i2c.2/i2c-2/2-0040/als_on
+    chown system system /sys/devices/platform/nmk-i2c.2/i2c-2/2-0040/als_result
     chown system system /sys/devices/platform/nmk-i2c.2/i2c-2/2-0040/pattern_data
     chown system system /sys/devices/platform/nmk-i2c.2/i2c-2/2-0040/pattern_delay
     chown system system /sys/devices/platform/nmk-i2c.2/i2c-2/2-0040/pattern_duration_secs
+    chown system system /sys/devices/platform/nmk-i2c.2/i2c-2/2-0040/pattern_use_softdim
+    chown system system /sys/devices/platform/nmk-i2c.2/i2c-2/2-0040/dim_time
     chown system system /sys/devices/platform/nmk-i2c.2/i2c-2/2-0040/leds/l-key-red/use_pattern
     chown system system /sys/devices/platform/nmk-i2c.2/i2c-2/2-0040/leds/l-key-green/use_pattern
     chown system system /sys/devices/platform/nmk-i2c.2/i2c-2/2-0040/leds/l-key-blue/use_pattern
@@ -274,10 +282,6 @@ on boot
     # SEMC: USB Host support
     mkdir /dev/bus/ 0711 system system
     mkdir /dev/bus/usb 0711 system system
-
-    # SEMC: Include IO wait time into CPU usage calculation to increase IO performance
-    write /sys/devices/system/cpu/cpufreq/ondemand/io_is_busy 1
-    write /proc/sys/kernel/sysrq 0
 
     # SEMC: Enable Wifi EAP SIM
     setprop ro.wifi.eap_sim_enabled true
@@ -299,6 +303,20 @@ on boot
 
     #Load wifi modules and MAC setup
     exec /system/bin/install_wlan
+
+    # power-management
+    write /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor ondemand
+    write /sys/devices/system/cpu/cpu1/cpufreq/scaling_governor ondemand
+    write /sys/devices/system/cpu/cpufreq/ondemand/sampling_rate 50000
+    write /sys/devices/system/cpu/cpufreq/ondemand/up_threshold 90
+    write /sys/devices/system/cpu/cpufreq/ondemand/io_is_busy 1
+    write /sys/devices/system/cpu/cpufreq/ondemand/sampling_down_factor 4
+    write /sys/devices/system/cpu/cpufreq/ondemand/down_differential 10
+    write /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq 200000
+    write /sys/devices/system/cpu/cpu1/cpufreq/scaling_min_freq 200000
+
+    # SEMC: Include IO wait time into CPU usage calculation to increase IO performance
+    write /proc/sys/kernel/sysrq 0
 
 # Crash Safe Parameter Storage Area, serving production parameter requests from clients.
 # Configuration is read from file "/etc/cspsa.conf" and each found area spawns a CSPSA server
@@ -386,11 +404,18 @@ service iprenew_bnep0 /system/bin/dhcpcd -n
     disabled
     oneshot
 
+service dhcpcd_fix rm /data/misc/dhcp/*
+    user root
+    disabled
+    oneshot
+
 on property:init.svc.wpa_supplicant=stopped
     stop dhcpcd
+    start dhcpcd_fix
 
 on property:init.svc.dhcpcd=stopped
     stop dhcpcd
+    start dhcpcd_fix
 
 # STE, C&N service daemon
 service cn_server /system/bin/cn_server
@@ -512,4 +537,11 @@ service batcap /system/bin/batcap
     class main
     user root
     oneshot
+
+on property:dhcp.wlan0.result=ok
+    exec /system/bin/iw phy phy0 wowlan enable any
+
+on property:init.svc.hostapd_bin=stopped
+    exec /system/bin/iw dev mon.wlan0 del
+
 

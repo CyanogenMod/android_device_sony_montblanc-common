@@ -25,6 +25,7 @@ PRODUCT_COPY_FILES += \
     frameworks/native/data/etc/android.hardware.wifi.xml:system/etc/permissions/android.hardware.wifi.xml \
     frameworks/native/data/etc/android.software.sip.voip.xml:system/etc/permissions/android.software.sip.voip.xml \
     frameworks/native/data/etc/handheld_core_hardware.xml:system/etc/permissions/handheld_core_hardware.xml \
+    frameworks/native/data/etc/com.stericsson.hardware.fm.receiver.xml:system/etc/permissions/com.stericsson.hardware.fm.receiver.xml \
     packages/wallpapers/LivePicker/android.software.live_wallpaper.xml:system/etc/permissions/android.software.live_wallpaper.xml
 
 # Configs
@@ -60,6 +61,10 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
    com.android.future.usb.accessory
 
+#Fmradio
+#PRODUCT_PACKAGES += \
+#   FmRadioReceiver
+
 # We have enough storage space to hold precise GC data
 PRODUCT_TAGS += dalvik.gc.type-precise
 
@@ -85,6 +90,14 @@ PRODUCT_COPY_FILES += \
     device/sony/montblanc-common/config/ril_config:system/etc/ril_config \
     device/sony/montblanc-common/config/install_wlan:system/bin/install_wlan \
     device/sony/montblanc-common/config/ste_modem.sh:system/etc/ste_modem.sh
+
+# GPS
+PRODUCT_COPY_FILES += \
+    device/sony/montblanc-common/config/gps.conf:system/etc/gps.conf\
+    device/sony/montblanc-common/config/cacert.txt:system/etc/suplcert/cacert.txt
+
+PRODUCT_PROPERTY_OVERRIDES += \
+    sys.mem.max_hidden_apps=3
 
 PRODUCT_PROPERTY_OVERRIDES += \
     persist.sys.usb.config=mtp \

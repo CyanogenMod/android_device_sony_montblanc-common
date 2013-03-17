@@ -67,6 +67,12 @@
 #MTP
 /dev/mtp                  0666   system     system
 
+#ALS
+/sys/bus/i2c/devices/2-0040/als_on 0666 system system
+
+# bluetooth
+/sys/devices/platform/cg2900.0/cg2900-uart.0/bluetooth/hci0/rfkill* state 0666 root bluetooth
+
 /sys/devices/platform/musb-ux500.0/musb-hdrc/usb* uevent 0660 root usb
 /dev/input/event10                                 0666 system system
 /sys/bus/i2c/devices/2-0037/als                    0666 system system

@@ -7,7 +7,6 @@ MOD_PATH="/system/lib/modules"
 MOD_CORE="cw1200_core.ko"
 MOD_WLAN="cw1200_wlan.ko"
 ARG="macaddr="
-PARAM="phy phy0 wowlan enable any"
 
 if ( /system/bin/ls $MAC_FILE > /dev/null ); then
      ADDR=`/system/bin/cat $MAC_FILE`
@@ -21,4 +20,3 @@ fi
 
 echo $COMMAND1 $MOD_PATH/$MOD_WLAN
 $COMMAND1 $MOD_PATH/$MOD_WLAN
-$COMMAND2 $PARAM
