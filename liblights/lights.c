@@ -130,7 +130,7 @@ static int set_light_buttons (struct light_device_t *dev, struct light_state_t c
 }
 
 static void set_shared_light_locked (struct light_device_t *dev, struct light_state_t *state) {
-	int i, r, g, b, r2, g2, b2;
+	int i, r, g, b;
 #ifndef NEW_NOTIFICATION
 	int delayOn, delayOff;
 #else
@@ -138,6 +138,9 @@ static void set_shared_light_locked (struct light_device_t *dev, struct light_st
 	uint32_t patbits = 0;
 	uint32_t numbits, delayshift;
 	char patternstr[11];
+	int  r2 = 0;
+	int  g2 = 0;
+	int  b2 = 0;
 #endif
 
 	r = (state->color >> 16) & 0xFF;
@@ -212,11 +215,6 @@ static void set_shared_light_locked (struct light_device_t *dev, struct light_st
 		write_string (LED_FILE_DIMONOFF, OFF);
 #endif
 		break;
-	}
-	else {
-	r2 = 0;
-	g2 = 0;
-	b2 = 0;
 	}
 	write_int (RED_LED_FILE, r);
 	write_int (GREEN_LED_FILE, g);
