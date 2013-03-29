@@ -180,7 +180,6 @@ static void set_shared_light_locked (struct light_device_t *dev, struct light_st
 	}
 #endif
 
-	if (state->flashOnMS > 1)
 	switch (state->flashMode) {
 	case LIGHT_FLASH_TIMED:
 	case LIGHT_FLASH_HARDWARE:
