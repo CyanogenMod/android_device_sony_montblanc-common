@@ -166,20 +166,20 @@ static void set_shared_light_locked (struct light_device_t *dev, struct light_st
 	if (delayshift < numbits * 2)
 	delayshift = numbits * 2;
 
-	LOGV("numbits = %d, delayshift = %d", numbits, delayshift);
+	ALOGV("numbits = %d, delayshift = %d", numbits, delayshift);
 
 	patbits = ((uint32_t)1 << numbits) - 1;
-	LOGV("patbits = 0x%x", patbits);
+	ALOGV("patbits = 0x%x", patbits);
 
 	for (i = 0; i < 32; i += delayshift) {
 	pattern = pattern | (patbits << i);
 	}
 
-	LOGV("pattern = 0x%x", pattern);
+	ALOGV("pattern = 0x%x", pattern);
 
 	snprintf(patternstr, 11, "0x%x", pattern);
 
-	LOGV("patternstr = %s", patternstr);
+	ALOGV("patternstr = %s", patternstr);
 	}
 #endif
 
