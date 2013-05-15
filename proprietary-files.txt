@@ -1,5 +1,3 @@
-vendor/firmware/libpn544_fw_c2.so
-vendor/firmware/libpn544_fw_c3.so
 bin/wait4tad
 bin/modem_log_relay
 bin/lbsd
@@ -20,8 +18,6 @@ bin/psccd
 bin/cg2900-channel_init.sh
 bin/modemcatcher
 bin/simpbd
-bin/hdmi_service_st
-bin/hdmiproxyd
 bin/msa
 bin/cops_cmd
 bin/blue-up.sh
@@ -97,6 +93,8 @@ usr/share/nmf/repository/mmdsp_8500_v2/_sk/speech_proc/nmf/mpc/dsp_port/configur
 usr/share/nmf/repository/mmdsp_8500_v2/_sk/speech_proc/nmf/common/hybrid_fillthisbuffer.elf4nmf
 usr/share/nmf/repository/mmdsp_8500_v2/_sk/speech_proc/nmf/common/configure_time_align.elf4nmf
 usr/share/nmf/repository/mmdsp_8500_v2/_sk/speech_proc/nmf/common/hybrid_emptythisbuffer.elf4nmf
+usr/share/nmf/repository/mmdsp_8500_v2/_sk/equalizer/nmfil/effect/configure.elf
+usr/share/nmf/repository/mmdsp_8500_v2/_sk/equalizer/nmfil/effect/configure.elf4nmf
 usr/share/nmf/repository/mmdsp_8500_v2/_sk/dummy.elf4nmf
 usr/share/nmf/repository/mmdsp_8500_v2/_sk/jpegenc/mpc/api/ddep.elf4nmf
 usr/share/nmf/repository/mmdsp_8500_v2/_sk/pcmprocessings/wrapper/configure.elf4nmf
@@ -182,6 +180,10 @@ usr/share/nmf/repository/mmdsp_8500_v2/speech_proc/nmf/mpc/time_align.elf4nmf
 usr/share/nmf/repository/mmdsp_8500_v2/speech_proc/nmf/mpc/hybrid_buffer/mpc2arm.elf4nmf
 usr/share/nmf/repository/mmdsp_8500_v2/speech_proc/nmf/mpc/hybrid_buffer/arm2mpc.elf4nmf
 usr/share/nmf/repository/mmdsp_8500_v2/speech_proc/nmf/mpc/dsp_port.elf4nmf
+usr/share/nmf/repository/mmdsp_8500_v2/equalizer/effect/libequalizer.elf
+usr/share/nmf/repository/mmdsp_8500_v2/equalizer/effect/libequalizer.elf4nmf
+usr/share/nmf/repository/mmdsp_8500_v2/equalizer/nmfil/effect.elf
+usr/share/nmf/repository/mmdsp_8500_v2/equalizer/nmfil/effect.elf4nmf
 usr/share/nmf/repository/mmdsp_8500_v2/jpegenc/mpc/ddep.elf4nmf
 usr/share/nmf/repository/mmdsp_8500_v2/grab.elf4nmf
 usr/share/nmf/repository/mmdsp_8500_v2/pcmprocessings/wrapper.elf4nmf
@@ -483,7 +485,6 @@ lib/ste_omxcomponents/libste_enc_jpeg.so
 lib/ste_omxcomponents/libste_dec_amr.so
 lib/libste_omxil-interface.so
 lib/libprotobuf-c.so
-lib/hw/hdmi.default.so
 lib/hw/audio_policy.montblanc.so
 lib/hw/gralloc.montblanc.so
 lib/hw/copybit.montblanc.so

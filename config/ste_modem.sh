@@ -4,8 +4,10 @@
 # from CSPSA and store them as files in the file system in the way expected
 # by NWM. Note that this process does not background itself, but rather
 # blocks until the copying has completed.
-echo "Synchronizing modem parameters from CSPSA to file system"
-/system/bin/logwrapper /system/bin/cspsa2nwm -r / -u 0xfffffffd:0 -g /modemfs/guardfile -p /modemfs/RFHAL CSPSA0
+
+# Not needed
+# echo "Synchronizing modem parameters from CSPSA to file system"
+# /system/bin/logwrapper /system/bin/cspsa2nwm -r / -u 0xfffffffd:0 -g /modemfs/guardfile -p /modemfs/RFHAL CSPSA0
 
 # Finally start Modem Storage Agent, serving files system requests from the
 # modem. It is important that this process does not background itself since

@@ -1,4 +1,5 @@
 import init.st-ericsson.usb.rc
+import init.st-ericsson.device.rc
 
 on init
     # setup the global environment
@@ -393,7 +394,7 @@ service copsd /system/bin/copsdaemon
 
 service admsrv /system/bin/admsrv
     class main
-    user audio
+    user root
     group system audio inet net_bt net_bt_admin net_raw shell sdcard_rw
     ioprio rt 4
     capability NET_ADMIN NET_RAW SYS_NICE

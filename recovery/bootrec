@@ -14,7 +14,6 @@ then
   stop ta_rmt_service
   stop rmt_storage
   stop tad
-  stop cspsa
 
   mount -o remount,rw rootfs /
   umount -l /system
