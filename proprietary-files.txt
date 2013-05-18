@@ -42,6 +42,13 @@ etc/psdata/stepscc_conf
 etc/psdata/sterc_script_connect
 etc/psdata/sterc_script_disconnect_dun
 etc/plmn.latam.list
+etc/bluetooth/input.conf
+etc/bluetooth/audio.conf
+etc/bluetooth/network.conf
+etc/bluetooth/main.conf
+etc/bluetooth/blacklist.conf
+etc/bluetooth/qos_role_switch_blacklist.conf
+etc/bluetooth/auto_pairing.conf
 etc/adm.sqlite
 etc/LbsLogConfig.cfg
 etc/firmware/sdd_10.bin
@@ -383,6 +390,9 @@ usr/share/alsa/pcm/surround50.conf
 usr/share/alsa/pcm/surround41.conf
 usr/share/alsa/pcm/default.conf
 usr/share/alsa/pcm/surround51.conf
+usr/lib/alsa-lib/libasound_module_ctl_bluetooth.so
+usr/lib/alsa-lib/libasound_module_pcm_steiop.so
+usr/lib/alsa-lib/libasound_module_pcm_bluetooth.so
 lib/tee/libasb_ta.ssw
 lib/tee/smcl_ta_8500bx_secure.ssw
 lib/tee/suntory_core_ta.ssw
@@ -405,8 +415,10 @@ lib/libmaluicc.so
 lib/libnmf.so
 lib/libnmftimer.so
 lib/libUMP.so
+lib/libbluedroid.so
 lib/libmalgss.so
 lib/libmalcs.so
+lib/libbluetooth.so
 lib/libmalpipe.so
 lib/libste_adm.so
 lib/libste_ens_audio_samplerateconv.so
@@ -424,6 +436,7 @@ lib/libkeyctrl.so
 lib/libu300-parser.so
 lib/libste_ext_ens_image_common.so
 lib/libmpl.so
+lib/libbluetoothd.so
 lib/libmalnet.so
 lib/liblos.so
 lib/libcn.so
@@ -495,6 +508,10 @@ lib/libtrace.so
 lib/libmiscta.so
 lib/libiddjni.so
 lib/libS1SL.so
+lib/bluez-plugin/audio.so
+lib/bluez-plugin/bluetooth-health.so
+lib/bluez-plugin/network.so
+lib/bluez-plugin/input.so
 lib/libstagefrighthw.so
 lib/libste_ens_video_common.so
 lib/libasound.so
