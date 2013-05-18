@@ -64,6 +64,9 @@ on init
 
     # chown for sim detect
     chown root radio /sys/class/sim_card/sim_status
+    #permissions for rfkill
+    chown bluetooth bluetooth /sys/class/rfkill/rfkill1/state
+    chmod 664 /sys/class/rfkill/rfkill1/state
 
 on fs
     # If you change anything here, make sure to update
@@ -85,6 +88,21 @@ on fs
 on post-fs
     chown radio radio /modemfs
     chmod 0770 /modemfs
+    chown radio radio /modemfs/APPL
+    mkdir /modemfs/APPL
+    chmod 0755 /modemfs/APPL
+    mkdir /modemfs/BOOT
+    chown radio radio /modemfs/BOOT
+    chmod 0755 /modemfs/BOOT
+    mkdir /modemfs/DO
+    chown radio radio /modemfs/DO
+    chmod 0755 /modemfs/DO
+    mkdir /modemfs/LOG
+    chown radio radio /modemfs/LOG
+    chmod 0755 /modemfs/LOG
+    mkdir /modemfs/TMP
+    chown radio radio /modemfs/TMP
+    chmod 0755 /modemfs/TMP
     chown radio radio /modemfs/CONF
     chmod 0755 /modemfs/CONF
     chown radio radio /modemfs/CONF/MCE
@@ -113,25 +131,17 @@ on post-fs
     # Camera
     mkdir /data/camera 0771 root camera
 
-    exec /system/bin/rm -r /data/lost+found
-    mkdir /data/lost+found 0700 root root
-
-    mkdir /data/idd 0755 idd idd
-    mount ext4 /dev/block/mmcblk0p8 /data/idd nosuid nodev noatime barrier=0
-    chown idd idd /data/idd
-    chmod 0755 /data/idd
     mkdir /data/tombstones 0755 system system
     mkdir /data/crashsms 0711 system system
     mkdir /data/crashsms/crashes 0755 system system
     mkdir /data/mediaserver 0740 media media
     mkdir /data/pc 0700 radio radio
 
-    # Change to socket location on libkeyctrl/suntory for /data encryption
-    mkdir /dev/socket/suntory 0755 system system
+    # Camera
+    mkdir /data/camera 0771 root camera
 
     chown system system /sys/devices/platform/musb-ux500.0/musb-hdrc/gadget/lun1/file
     chmod 0660 /sys/devices/platform/musb-ux500.0/musb-hdrc/gadget/lun1/file
-
     write /sys/devices/platform/musb-ux500.0/musb-hdrc/gadget/lun0/nofua 1
     write /sys/devices/platform/musb-ux500.0/musb-hdrc/gadget/lun1/nofua 1
 
@@ -145,6 +155,10 @@ on post-fs-data
     chmod 0660 /data/misc/ril_config
     chown root radio /data/misc/ril_config
 
+    mkdir /data/misc/telephony_log_levels
+    chmod 0660 /data/misc/telephony_log_levels
+    chown root radio /data/misc/telephony_log_levels
+
     # Create directory for STE OMX debug logs
     mkdir /data/ste-debug 0777 root root
 
@@ -153,29 +167,6 @@ on post-fs-data
     mkdir /data/misc/wifi/sockets 0770 wifi wifi
 
     chmod 0770 /data/misc/wifi/wpa_supplicant.conf
-
-    # give system access to sterc_script when enabling usb nap
-    copy -u /system/etc/psdata/sterc_conf /data/misc/psdata/sterc_conf
-    copy -u /system/etc/psdata/sterc_script_connect /data/misc/psdata/sterc_script_connect
-    copy -u /system/etc/psdata/sterc_script_disconnect /data/misc/psdata/sterc_script_disconnect
-    copy -u /system/etc/psdata/sterc_conf_alt /data/misc/psdata/sterc_conf_alt
-    copy -u /system/etc/psdata/sterc_script_connect_alt /data/misc/psdata/sterc_script_connect_alt
-    copy -u /system/etc/psdata/sterc_script_connect_dun /data/misc/psdata/sterc_script_connect_dun
-    copy -u /system/etc/psdata/sterc_script_disconnect_dun /data/misc/psdata/sterc_script_disconnect_dun
-    chmod 0660 /data/misc/psdata/sterc_conf
-    chmod 0500 /data/misc/psdata/sterc_script_connect
-    chmod 0500 /data/misc/psdata/sterc_script_disconnect
-    chmod 0660 /data/misc/psdata/sterc_conf_alt
-    chmod 0500 /data/misc/psdata/sterc_script_connect_alt
-    chmod 0500 /data/misc/psdata/sterc_script_connect_dun
-    chmod 0500 /data/misc/psdata/sterc_script_disconnect_dun
-    chown root radio /data/misc/psdata/sterc_conf
-    chown root radio /data/misc/psdata/sterc_conf_alt
-
-    # give system access to stepscc_conf
-    copy -u /system/etc/psdata/stepscc_conf /data/misc/psdata/stepscc_conf
-    chmod 0660 /data/misc/psdata/stepscc_conf
-    chown root radio /data/misc/psdata/stepscc_conf
 
     # Setup paths used for socket communication with the wpa supplicant.
     mkdir /data/system 0775 system system
@@ -204,9 +195,10 @@ on post-fs-data
     chmod 0600 /dev/rpc
 
 on early-boot
+    #start recovery
     exec /sbin/bootrec
 
-    # Start the offline charging (This blocks booting further in some cases)
+    # Start the offline charging
     exec /system/bin/chargemon
 
     # STE: Launch core services in case charging mode is entered
@@ -224,7 +216,6 @@ on boot
     # Enable debugfs for eng and userdebug variants
     class_start bootstage1
 
-    exec /system/bin/install_wlan
 
     # USB gadget initial setup
     write /sys/class/android_usb/android0/bDeviceClass 0
@@ -329,6 +320,9 @@ on boot
     # overhead is too large with ondemand. Workaround to not have kernel patches.
     chmod 0664 /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
     chown root system /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
+
+    #Load wifi modules and MAC setup
+    exec /system/bin/install_wlan
 
     # Set timeout value for rmnet stats.
     write /sys/devices/virtual/net/rmnet0/timeout_suspend 5000000
@@ -508,7 +502,7 @@ service simd /system/bin/simd
     group radio
 
 # STE, SIMPB daemon
-service simpbd /system/bin/logwrapper /system/bin/simpbd
+service simpbd /system/bin/simpbd
     class modem
     user root
     group radio
@@ -597,22 +591,12 @@ service hw_config /system/bin/sh /system/etc/hw_config.sh
     user root
     oneshot
 
-service iddd /system/bin/iddd
-    class main
-    user idd
-    group idd log
-
 # Start suntrold
 service suntrold /system/bin/suntrold
     class main
     user system
     group system
     oneshot
-
-on property:vold.decrypt=trigger_post_fs_data
-    mkdir /data/idd 0755 idd idd
-    mount ext4 /dev/block/mmcblk0p8 /data/idd nosuid nodev noatime barrier=0
-    chown idd idd /data/idd
 
 # Native helper for SuperStamina
 service xssm /system/bin/xssm
