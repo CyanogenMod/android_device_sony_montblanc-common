@@ -38,6 +38,7 @@ PRODUCT_COPY_FILES += \
     device/sony/montblanc-common/config/hostapd.conf:system/etc/wifi/hostapd.conf \
     device/sony/montblanc-common/config/01stesetup:system/etc/init.d/01stesetup \
     device/sony/montblanc-common/config/10dhcpcd:system/etc/init.d/10dhcpcd \
+    device/sony/montblanc-common/config/10hostapd:system/etc/init.d/10hostapd \
     device/sony/montblanc-common/config/wpa_supplicant.conf:system/etc/wifi/wpa_supplicant.conf
 
 # Filesystem management tools
